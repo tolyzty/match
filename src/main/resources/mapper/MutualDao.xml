@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.match.dao.MutualDao">	
+	<resultMap type="java.util.LinkedHashMap" id="mutualInf">
+		<result column="mutual_id" property="mutualId"/>
+		<result column="mutual_name" property="mutualName"/>
+		<result column="mutual_amt" property="mutualAmt"/>
+		<result column="mutual_preamt" property="mutualPreamt"/>
+		<result column="mutual_number" property="mutualNumber"/>
+		<result column="mutual_event" property="mutualEvent"/>
+		<result column="mutual_type" property="mutualType"/>
+		<result column="mutual_mumamt" property="mutualMumamt"/>
+		<result column="mutual_under" property="mutualUnder"/>
+		<result column="mutual_charge" property="mutualCharge"/>
+		<result column="mutual_content" property="mutualContent"/>
+		<result column="mutual_offeramt" property="mutualOfferamt"/>
+		<result column="mutual_vipdesc" property="mutualVipdesc"/>
+		<result column="mutual_vipzg" property="mutualVipzg"/>
+		<result column="mutual_zxamt" property="mutualZxamt"/>
+		<result column="mutual_claims" property="mutualClaims"/>
+		<result column="mutual_other" property="mutualOther"/>
+		<result column="mutual_time" property="mutualTime"/>
+		<result column="mutual_age" property="mutualAge"/>
+		<result column="mutual_zt" property="mutualZt"/>
+	</resultMap>
+	
+	
+	<sql id="SQL_MUTUAL_QUERY">
+	    <if test="mutualId !=null and mutualId != '' ">
+	    	and mutual_id = #{mutualId}
+	    </if>
+	    <if test="mutualName !=null and mutualName != '' ">
+	    	and mutual_name = #{mutualName}
+	    </if>
+	    <if test="mutualAmt !=null and mutualAmt != '' ">
+	    	and mutual_amt = #{mutualAmt}
+	    </if>
+	    <if test="mutualPreamt !=null and mutualPreamt != '' ">
+	    	and mutual_preamt = #{mutualPreamt}
+	    </if>
+	    <if test="mutualNumber !=null and mutualNumber != '' ">
+	    	and mutual_number = #{mutualNumber}
+	    </if>
+	    <if test="mutualEvent !=null and mutualevent != '' ">
+	    	and mutual_event = #{mutualEvent}
+	    </if>
+	    <if test="mutualType !=null and mutualType != '' ">
+	    	and mutual_type = #{mutualType}
+	    </if>
+	    <if test="mutualMumamt !=null and mutualMumamt != '' ">
+	    	and mutual_mumamt = #{mutualMumamt}
+	    </if>
+	    <if test="mutualUnder !=null and mutualUnder != '' ">
+	    	and mutual_under = #{mutualUnder}
+	    </if>
+	    <if test="mutualCharge !=null and mutualCharge != '' ">
+	    	and mutual_charge = #{mutualCharge}
+	    </if>
+	    <if test="mutualContent !=null and mutualContent != '' ">
+	    	and mutual_content = #{mutualContent}
+	    </if>
+	    <if test="mutualOfferamt !=null and mutualOfferamt != '' ">
+	    	and mutual_offeramt = #{mutualOfferamt}
+	    </if>
+	    <if test="mutualVipdesc !=null and mutualVipdesc != '' ">
+	    	and mutual_vipdesc = #{mutualVipdesc}
+	    </if>
+	    <if test="mutualClaims !=null and mutualClaims != '' ">
+	    	and mutual_claims = #{mutualClaims}
+	    </if>
+	    <if test="mutualVipzg !=null and mutualVipzg != '' ">
+	    	and mutual_vipzg = #{mutualVipzg}
+	    </if>
+	    <if test="mutualZxamt !=null and mutualZxamt != '' ">
+	    	and mutual_zxamt = #{mutualZxamt}
+	    </if>
+	    <if test="mutualOther !=null and mutualOther != '' ">
+	    	and mutual_other = #{mutualOther}
+	    </if>
+	    <if test="mutualTime !=null and mutualTime != '' ">
+	    	and mutual_time = #{mutualTime}
+	    </if>
+	    <if test="mutualZt !=null and mutualZt != '' ">
+	    	and mutual_zt = #{mutualZt}
+	    </if>
+	    <if test="mutualAge !=null and mutualAge != '' ">
+	    	and mutual_age = #{mutualAge}
+	    </if>
+	  
+	</sql>
+	
+    <!-- 查找所有用户信息 -->
+    <select id="getMutualList" parameterType="java.util.Map" resultMap="mutualInf">
+    	SELECT * FROM t_mutual where 1=1 and mutual_zt = 1
+    	<include refid="SQL_MUTUAL_QUERY" />
+    	ORDER BY mutual_id DESC
+    	<if test="pageSize != null and pageSize != ''">
+			<choose>
+		        <when test="startPage != null and startPage != ''">  
+		           LIMIT #{startPage},#{pageSize}
+		        </when>  
+		        <otherwise>  
+		            LIMIT #{pageSize}
+		        </otherwise>  
+		    </choose>  
+		</if>
+    </select>
+    
+    <select id="findMutual" parameterType="java.util.Map" resultMap="mutualInf">
+    	select * from t_mutual where 1=1 
+    	<include refid="SQL_MUTUAL_QUERY" />
+    </select>
+    
+    <update id="updateMutual" parameterType="java.util.Map">
+		UPDATE t_mutual 
+			<set>
+				<if test="mutualAmt !=null and mutualAmt !='' ">
+				 mutual_amt = #{mutualAmt},
+				</if>
+	    	  <if test="mutualNumber !=null and mutualNumber !='' ">
+	    	  	 mutual_number = #{mutualNumber}
+	    	  </if>    	 
+			</set>
+		 <where>
+		 mutual_type = #{mutualType}
+		 </where> 
+	</update>
+	
+	<insert id="insertMutualHt" parameterType="java.util.Map">
+		INSERT INTO T_MUTUAL(				
+				mutual_name,
+				mutual_amt,
+				mutual_number,
+				mutual_type,
+				mutual_mumamt,
+				mutual_under,
+				mutual_charge,
+				mutual_preamt,
+				mutual_age,
+				mutual_content,
+				mutual_offeramt,
+				mutual_vipdesc,
+				mutual_vipzg,
+				mutual_zxamt,
+				mutual_time,
+				mutual_zt
+			)VALUES(
+	   		  
+	    	 	#{mutualName},
+
+		    	#{mutualAmt},
+		    	 
+		    	#{mutualNumber},    	 
+		        
+		        #{mutualType},
+		    	  	    	  
+		        #{mutualMumamt},
+		    	 
+		        #{mutualUnder},
+		   
+		    	#{mutualCharge},
+		    	  		  
+		    	  		  
+		    	  		    	
+		    	#{mutualPreamt},   
+		    	#{mutualAge},
+
+		    	#{mutualContent},
+		  
+		    	#{mutualOfferamt},
+		  
+		         #{mutualVipdesc},
+
+		   
+		    	 #{mutualVipzg},
+		  		 #{mutuzlZxamt},
+		    	 #{mutualTime},
+		  
+		    	  #{mutualZt},
+   		)
+			
+	</insert>
+	
+	<update id="updateMutualHt" parameterType="java.util.Map">
+		UPDATE T_MUTUAL
+		<set>
+
+	    <if test="mutualName !=null and mutualName != '' ">
+	    	 mutual_name = #{mutualName},
+	    </if>
+	    <if test="mutualAmt !=null and mutualAmt != '' ">
+	    	 mutual_amt = #{mutualAmt},
+	    </if>
+	    <if test="mutualPreamt !=null and mutualPreamt != '' ">
+	    	 mutual_preamt = #{mutualPreamt},
+	    </if>
+	    <if test="mutualNumber !=null and mutualNumber != '' ">
+	    	 mutual_number = #{mutualNumber},
+	    </if>
+	    <if test="mutualEvent !=null and mutualevent != '' ">
+	    	 mutual_event = #{mutualEvent},
+	    </if>
+	    <if test="mutualType !=null and mutualType != '' ">
+	    	 mutual_type = #{mutualType},
+	    </if>
+	    <if test="mutualMumamt !=null and mutualMumamt != '' ">
+	    	 mutual_mumamt = #{mutualMumamt},
+	    </if>
+	    <if test="mutualUnder !=null and mutualUnder != '' ">
+	    	 mutual_under = #{mutualUnder},
+	    </if>
+	    <if test="mutualCharge !=null and mutualCharge != '' ">
+	    	 mutual_charge = #{mutualCharge},
+	    </if>
+	    <if test="mutualContent !=null and mutualContent != '' ">
+	    	 mutual_content = #{mutualContent},
+	    </if>
+	    <if test="mutualOfferamt !=null and mutualOfferamt != '' ">
+	    	 mutual_offeramt = #{mutualOfferamt},
+	    </if>
+	    <if test="mutualVipdesc !=null and mutualVipdesc != '' ">
+	    	 mutual_vipdesc = #{mutualVipdesc},
+	    </if>
+	    <if test="mutualClaims !=null and mutualClaims != '' ">
+	    	 mutual_claims = #{mutualClaims},
+	    </if>
+	    <if test="mutualVipzg !=null and mutualVipzg != '' ">
+	    	 mutual_vipzg = #{mutualVipzg},
+	    </if>
+	     <if test="mutualZxamt !=null and mutualZxamt != '' ">
+	          mutual_zxamt = #{mutualZxamt},
+	    </if>
+	    <if test="mutualOther !=null and mutualOther != '' ">
+	    	 mutual_other = #{mutualOther},
+	    </if>
+	    <if test="mutualTime !=null and mutualTime != '' ">
+	    	 mutual_time = #{mutualTime},
+	    </if>
+	    <if test="mutualZt !=null and mutualZt != '' ">
+	    	 mutual_zt = #{mutualZt},
+	    </if>
+	    <if test="mutualAge !=null and mutualAge != '' ">
+	    	 mutual_age = #{mutualAge},
+	    </if>
+		
+		</set>
+		<where>
+			mutual_id = #{mutualId}
+		
+		</where>
+	
+	</update>
+	
+	
+
+
+</mapper>  

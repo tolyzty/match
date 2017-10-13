@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.match.dao.OrderDao">	
+	<resultMap type="java.util.LinkedHashMap" id="orderInf">
+		
+		
+		<result column="agent_id" property="agentId" />
+	
+	
+		<result column="order_id" property="orderId"/>
+		<result column="user_id" property="userId"/>
+		<result column="order_no" property="orderNo"/>
+		<result column="pay_order_no" property="payOrderNo"/>
+		<result column="consumer_no" property="consumerNo"/>
+		<result column="request_amt" property="requestAmt"/>
+		<result column="request_time" property="requestTime"/>
+		<result column="success_time" property="successTime"/>
+		<result column="order_status" property="orderStatus"/>		
+		<result column="pay_time" property="payTime"/>
+		<result column="pay_amt" property="payAmt"/>
+		<result column="order_type" property="orderType"/>
+		<result column="order_desc" property="orderDype"/>
+		<result column="mu_type" property="muType"/>
+		<result column="pay_type" property="payType" />
+		
+		
+		
+		<result column="join_id" property="joinId"/>
+		<result column="mu_id" property="muId"/>
+		<result column="event_nubmer" property="eventNubmer"/>
+		<result column="join_name" property="joinName"/>
+		<result column="join_card" property="joinCard"/>
+		<result column="join_amt" property="joinAmt"/>
+		<result column="join_vipzg" property="joinVipzg"/>
+		<result column="join_time" property="joinTime"/>
+		<result column="join_vipsu_time" property="joinVipsuTime"/>		
+		<result column="join_effetime" property="joinEffetime"/>
+		<result column="join_nomoney" property="joinNomoney"/>
+		<result column="join_zt" property="joinZt"/>
+		<result column="join_mutype" property="joinMutype"/>
+		<result column="join_type" property="joinType"/>
+		<result column="join_status" property="joinStatus"/>
+		
+	</resultMap>
+	
+	
+	<sql id="SQL_ORDER_QUERY">
+	    <if test="order_id !=null and order_id != '' ">
+	    	and o.order_id = #{order_id}
+	    </if>
+	    <if test="userId !=null and userId != '' ">
+	    	and o.user_id = #{userId}
+	    </if>
+	    <if test="orderNo !=null and orderNo != '' ">
+	    	and o.order_no = #{orderNo}
+	    </if>
+	    <if test="payOrderNo !=null and payOrderNo != '' ">
+	    	and o.pay_order_no = #{payOrderNo}
+	    </if>
+	    <if test="consumerNo !=null and consumerNo != '' ">
+	    	and o.consumer_no = #{consumerNo}
+	    </if>
+	    <if test="requestAmt !=null and requestAmt != '' ">
+	    	and o.request_amt = #{requestAmt}
+	    </if>
+	    <if test="requestTime !=null and requestTime != '' ">
+	    	and o.request_time = #{requestTime}
+	    </if>
+	    <if test="successTime !=null and successTime != '' ">
+	    	and o.success_time = #{successTime}
+	    </if>
+	    <if test="orderStatus !=null and orderStatus != '' ">
+	    	and o.order_status = #{orderStatus}
+	    </if>
+	    <if test="payTime !=null and payTime != '' ">
+	    	and o.pay_time = #{payTime}
+	    </if>
+	    <if test="payAmt !=null and payAmt != '' ">
+	    	and o.pay_amt = #{payAmt}
+	    </if>
+	    <if test="orderType !=null and orderType != '' ">
+	    	and o.order_type = #{orderType}
+	    </if>
+	    <if test="muType !=null and muType != '' ">
+	    	and o.mu_type = #{muType}
+	    </if>
+	    <if test="orderDesc !=null and orderDesc != '' ">
+	    	and o.order_desc = #{orderDesc}
+	    </if>
+	    <if test="agentId !=null and agentId != '' ">
+	    	and o.agent_id = #{agentId}
+	    </if>
+	</sql>
+	
+	<sql id="SQL_JOIN_QUERY">
+	<if test="joinId !=null and joinId != '' ">
+			and j.join_id = #{joinId}
+		</if>
+		<if test="agentId !=null and agentId != '' ">
+			and j.agent_id = #{agentId}
+		</if>
+		<if test="eventNubmer !=null and eventNubmer != '' ">
+			and j.event_nubmer = #{eventNubmer}
+		</if>
+		<if test="joinName !=null and joinName != '' ">
+			and j.join_name = #{joinName}
+		</if>
+		<if test="joinCard !=null and joinCard != '' ">
+			and j.join_card = #{joinCard}
+		</if>
+		<if test="joinAmt !=null and joinAmt != '' ">
+			and j.join_amt = #{joinAmt}
+		</if>
+		<if test="joinVipzg !=null and joinVipzg != '' ">
+			and j.join_vipzg = #{joinVipzg}
+		</if>
+		<if test="joinTime !=null and joinTime != '' ">
+			and j.join_time = #{joinTime}
+		</if>
+		<if test="joinVipsuTime !=null and joinVipsuTime != '' ">
+			and j.join_vipsu_time = #{joinVipsuTime}
+		</if>
+		<if test="joinEffetime !=null and joinEffetime != '' ">
+			and j.join_effetime = #{joinEffetime}
+		</if>
+		<if test="joinNomoney !=null and joinNomoney != '' ">
+			and j.join_nomoney = #{joinNomoney}
+		</if>
+		<if test="joinZt !=null and joinZt != '' ">
+			and j.join_zt = #{joinZt}
+		</if>
+		<if test="joinMutype !=null and joinMutype != '' ">
+			and j.join_mutype = #{joinMutype}
+		</if>
+		<if test="joinType !=null and joinType != '' ">
+			and j.join_type = #{joinType}
+		</if>
+		<if test="joinStatus !=null and joinStatus != '' ">
+			and j.join_status = #{joinStatus}
+		</if>
+
+	</sql>
+	
+	<sql id="SQL_ORDER_JOIN_QUERY">
+		<include refid="SQL_ORDER_QUERY" />
+		<include refid="SQL_JOIN_QUERY" />
+	</sql>
+	
+    <!-- 查找所有帐户信息 -->
+    <select id="getOrderList" parameterType="java.util.Map" resultMap="orderInf">
+    	select * from t_orders o where 1=1 
+    	<include refid="SQL_ORDER_QUERY" />
+    	ORDER BY order_id desc
+    	<if test="pageSize != null and pageSize != ''">
+			<choose>
+		        <when test="startPage != null and startPage != ''">  
+		           LIMIT #{startPage},#{pageSize}
+		        </when>  
+		        <otherwise>  
+		            LIMIT #{pageSize}
+		        </otherwise>  
+		    </choose>  
+		</if>
+    </select>
+    
+    <select id="findByOrder" parameterType="java.util.Map" resultMap="orderInf">
+    	SELECT * FROM T_ORDERS o WHERE 1=1
+    	<include refid="SQL_ORDER_QUERY" />
+    </select>
+   
+    <select id="orderByLimit" parameterType="java.util.Map" resultMap="orderInf">
+    	SELECT * FROM T_ORDERS o WHERE 1=1
+    	<include refid="SQL_ORDER_QUERY" />
+    	ORDER BY order_id DESC LIMIT 1
+    </select>
+    
+        <!-- 加入表关联交易表 -->
+    <select id="queryByOrderAndJoin" parameterType="java.util.Map" resultMap="orderInf">
+    	SELECT * FROM t_orders o
+    	LEFT JOIN t_join j  ON o.agent_id = j.agent_id 
+    	WHERE 1=1
+    	<include refid="SQL_ORDER_JOIN_QUERY" />
+    </select>
+    
+    
+    
+    
+   
+   <insert id="inserOrder" parameterType="java.util.Map">
+   	 insert into t_orders(
+		user_id,
+		order_no,
+		pay_order_no,
+		consumer_no,
+		request_amt,
+		request_time,
+		success_time,
+		pay_time,
+		pay_amt,
+		order_desc,
+		pay_type,
+		mu_type,
+		agent_id,
+		order_status,
+		order_type
+   	 ) VALUES(
+   	 	#{userId},
+   	 	#{orderNo},
+   	 	#{payOrderNo},
+   	 	#{consumerNo},
+   	 	#{requestAmt},
+   	 	#{requestTime},
+   	 	#{successTime},
+   	 	#{payTime},
+   	 	#{payAmt},
+   	 	#{orderDesc},
+   	 	#{payType},
+   	 	#{muType},
+   	 	#{agentId},
+   	 	#{orderStatus},
+   	 	#{orderType}
+   	 )
+   </insert>
+   
+   <update id="updateOrder" parameterType="java.util.Map">
+   	UPDATE T_ORDERS 
+   		<set>
+ 
+   			 <if test="userId !=null and userId != '' ">
+	    	user_id = #{userId},
+	    </if>
+	    <if test="orderNo !=null and orderNo != '' ">
+	    	order_no = #{orderNo},
+	    </if>
+	    <if test="payOrderNo !=null and payOrderNo != '' ">
+	    	pay_order_no = #{payOrderNo},
+	    </if>
+	    <if test="consumerNo !=null and consumerNo != '' ">
+	    	consumer_no = #{consumerNo},
+	    </if>
+	    <if test="requestAmt !=null and requestAmt != '' ">
+	    	request_amt = #{requestAmt},
+	    </if>
+	    <if test="requestTime !=null and requestTime != '' ">
+	    	request_time = #{requestTime},
+	    </if>
+	    <if test="successTime !=null and successTime != '' ">
+	    	success_time = #{successTime},
+	    </if>
+	    <if test="orderStatus !=null and orderStatus != '' ">
+	    	order_status = #{orderStatus},
+	    </if>
+	    <if test="payTime !=null and payTime != '' ">
+	    	pay_time = #{payTime},
+	    </if>
+	    <if test="payAmt !=null and payAmt != '' ">
+	    	pay_amt = #{payAmt},
+	    </if>
+	    <if test="orderType !=null and orderType != '' ">
+	    	order_type = #{orderType},
+	    </if>
+	    <if test="muType !=null and muType != '' ">
+	    	mu_type = #{muType},
+	    </if>
+	    <if test="orderDesc !=null and orderDesc != '' ">
+	    	order_desc = #{orderDesc},
+	    </if>
+	    <if test="agentId !=null and agentId != '' ">
+	    	agent_id = #{agentId}
+	    </if>
+   		</set>
+   		<where>
+   			order_id = #{orderId}
+      	</where>
+   </update>
+   
+   	<update id="updateJoin" parameterType="java.util.Map">
+   	UPDATE t_join
+   			<set>
+			    join_status = #{joinStatus}
+			</set>
+		<where>
+   	  	 		consumer_no = #{consumerNo} AND agent_id = #{agentId}
+		</where>
+   	</update>
+
+  <update id="updateJoinByOrder" parameterType="java.util.Map">
+  UPDATE t_join j 
+  LEFT JOIN t_orders o ON j.agent_id=o.agent_id 
+  <set>
+  	  <if test="payOrderNo!=null and payOrderNo !=''">
+  	  	  o.pay_order_no = #{payOrderNo},
+  	  </if>
+  	  <if test="successTime !=null and successTime !=''">
+  	  	  o.success_time = #{successTime},
+  	  </if>
+  	  <if test="mutualType !=null and mutualType !=''">
+  	  	  o.mutual_type = #{mutualType},
+  	  </if>
+  	  o.order_status = #{orderStatus},j.join_status = #{orderStatus}
+  </set>
+	  <where>
+	  	 j.agent_id = #{agentId}
+	  </where>
+  </update>
+
+</mapper>  

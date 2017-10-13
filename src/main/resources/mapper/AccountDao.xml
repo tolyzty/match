@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.match.dao.AccountDao">	
+	<resultMap type="java.util.LinkedHashMap" id="account">
+			
+			<result property="accountId"               column="account_id" /> 
+		    <result property="consumerNo"               column="consumer_no" /> 
+		    <result property="accountNo"               column="account_no" /> 
+		    <result property="muType"               column="MU_TYPE" /> 
+		    <result property="acBal"               column="AC_BAL" /> 
+		    <result property="frozBalance"         column="FROZ_BALANCE" /> 
+		    <result property="lstTxDatetime"          column="LST_TX_DATETIME" /> 
+		    <result property="orderStatus"               column="order_status" /> 	    
+		    <result property="agentId"               column="agent_id" /> 
+		    
+		    
+		    <result property="resField2"               column="RES_FIELD2" /> 
+		    <result property="resField3"               column="RES_FIELD3" /> 
+		    <result property="accountStatus"           column="ACCOUNT_STATUS" /> 	
+		    
+			
+			
+			<result column="old_ac_bal" property="oldAcBal"/>
+			<result column="ac_bal_cz" property="acBalcz"/>	
+			<result column="old_froz_balance" property="oldFrozBalance"/>
+			<result column="change_type" property="changeType"/>		
+			<result column="acc_order_no" property="accOrderNo"/>		
+			<result column="log_date_time" property="logDateTime"/>		
+			<result column="change_desc" property="changeDesc"/>		
+			<result column="account_zt" property="accountZt"/>			
+ 			
+		    
+	</resultMap>
+	<sql id="SQL_ACCOUNTINF_QUERY">
+		<if test="oldAcBal !=null and oldAcBal != '' ">
+	    	and old_ac_bal = #{oldAcBal}
+	    </if>
+		<if test="acBalcz !=null and acBalcz != '' ">
+	    	and ac_bal_cz = #{acBalcz}
+	    </if>
+		<if test="oldFrozBalance !=null and oldFrozBalance != '' ">
+	    	and old_froz_balance = #{oldFrozBalance}
+	    </if>
+		<if test="changeType !=null and changeType != '' ">
+	    	and change_type = #{change_type}
+	    </if>
+		<if test="accOrderNo !=null and accOrderNo != '' ">
+	    	and acc_order_no = #{accOrderNo}
+	    </if>
+		<if test="logDateTime !=null and logDateTime != '' ">
+	    	and log_date_time = #{logDateTime}
+	    </if>
+		<if test="changeDesc !=null and changeDesc != '' ">
+	    	and change_desc = #{changeDesc}
+	    </if>
+		<if test="accountZt !=null and accountZt != '' ">
+	    	and account_zt = #{accountZt}
+	    </if>
+	</sql>
+	
+	<sql id="SQL_ACCOUNT_QUERY">   
+	    <if test="accountId !=null and accountId != '' ">
+	    	and a.account_id = #{accountId}
+	    </if>
+	    <if test="consumerNo !=null and consumerNo != '' ">
+	    	and a.consumer_no = #{consumerNo}
+	    </if>
+	    <if test="accountNo !=null and accountNo != '' ">
+	    	and a.account_no = #{accountNo}
+	    </if>
+	    <if test="muType !=null and muType != '' ">
+	    	and a.mu_type = #{muType}
+	    </if>  
+	    <if test="acBal !=null and acBal != '' ">
+	    	and a.ac_bal = #{acBal}
+	    </if>
+	    <if test="frozBalance !=null and frozBalance != '' ">
+	    	and a.froz_balance = #{frozBalance}
+	    </if>
+	    <if test="lstTxDatetime !=null and lstTxDatetime != '' ">
+	    	and a.lst_txDate_time = #{lstTxDatetime}
+	    </if>
+	    <if test="accountStatus !=null and accountStatus != '' ">
+	    	and a.account_status = #{accountStatus}
+	    </if>
+	    <if test="agentId !=null and agentId != '' ">
+	    	and a.agent_id = #{agentId}
+	    </if>
+	    <if test="orderStatus !=null and orderStatus != '' ">
+	    	and a.order_status = #{orderStatus}
+	    </if>  
+	</sql>
+	
+	
+	
+    <!-- 查找所有帐户信息 -->
+    <select id="getAccountLists" parameterType="java.util.Map" resultMap="account">
+    	SELECT * FROM t_account a LEFT JOIN t_join j ON a.agent_id = j.agent_id
+    	where 1=1
+    	<include refid="SQL_ACCOUNT_QUERY" />
+    	<if test="pageSize != null and pageSize != ''">
+			<choose>
+		        <when test="startPage != null and startPage != ''">  
+		           LIMIT #{startPage},#{pageSize}
+		        </when>  
+		        <otherwise>  
+		            LIMIT #{pageSize}
+		        </otherwise>  
+		    </choose>  
+		</if>
+    </select>
+    
+    <select id="findByQueryAmt" parameterType="java.util.Map" resultMap="account">
+    	SELECT 	
+    	account_id,
+    	consumer_no,
+		account_no,
+		mu_type,
+		ac_bal,
+		froz_balance,
+		lst_tx_datetime,
+		account_status,
+		order_status
+		FROM t_account a where 1=1
+		<include refid="SQL_ACCOUNT_QUERY" />
+    </select>
+    
+    <select id="findCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    	SELECT COUNT(1) FROM T_ACCOUNT a 
+    	WHERE 1=1
+    	<include refid="SQL_ACCOUNT_QUERY" />
+    </select>
+   
+   <insert id="inserAccount" parameterType="java.util.Map">
+   	 insert into t_account(
+		consumer_no,
+		account_no,
+		mu_type,
+		ac_bal,
+		lst_tx_datetime,
+		agent_id,
+		order_status
+   	 ) VALUES(
+   	 	#{consumerNo},
+   	 	#{accountNo},
+   	 	#{muType},
+   	 	#{acBal},	
+   	 	#{lstTxDatetime},
+   	 	#{agentId},
+   	 	#{orderStatus}
+
+   	 )
+   	 
+   	 
+   </insert>
+
+
+	<update id="updateAccount" parameterType="java.util.Map">
+		UPDATE 
+				T_ACCOUNT
+		<set>
+						consumer_no = #{consumerNo},
+						account_no = #{accountNo},
+						mu_type = #{muType},
+						ac_bal =  #{acBal},
+						agent_id = #{agentId}
+				<if test="orderStatus !=null and orderStatus !=''">
+						order_status = #{orderStatus}
+				</if>
+		        <if test="lstTxDatetime!= null and lstTxDatetime!= ''">
+						LST_TX_DATETIME =  #{lstTxDatetime}
+				</if>
+		       
+		</set>
+		<where>
+			CONSUMER_NO=#{consumerNo}  AND  mu_type = #{muType} 
+		</where>
+	</update>
+	
+	<update id="updateAcc" parameterType="java.util.Map">
+		UPDATE 
+				T_ACCOUNT
+		<set>
+ 		 <if test="consumerNo !=null and consumerNo != '' ">
+	    	consumer_no = #{consumerNo},
+	    </if>
+	    <if test="accountNo !=null and accountNo != '' ">
+	    	account_no = #{accountNo},
+	    </if>
+	    <if test="muType !=null and muType != '' ">
+	    	mu_type = #{muType},
+	    </if>  
+	    <if test="acBal !=null and acBal != '' ">
+	    	ac_bal = #{acBal},
+	    </if>
+	    <if test="frozBalance !=null and frozBalance != '' ">
+	    	froz_balance = #{frozBalance},
+	    </if>
+	    <if test="accountStatus !=null and accountStatus != '' ">
+	    	account_status = #{accountStatus},
+	    </if>
+	    <if test="agentId !=null and agentId != '' ">
+	    	agent_id = #{agentId},
+	    </if>
+		<if test="lstTxDatetime!= null and lstTxDatetime!= ''">
+			LST_TX_DATETIME =  #{lstTxDatetime},
+		</if>
+		<if test="orderStatus !=null and orderStatus !=''">
+						order_status = #{orderStatus}
+		</if>
+		</set>
+		<where>
+			account_id = #{accountId}
+		</where>
+	</update>
+	
+	 <update id="updateAccByAccInf" parameterType="java.util.Map">
+		  UPDATE t_account a 
+		  LEFT JOIN t_account_inf o ON a.agent_id=o.agent_id 
+  <set>
+  	    a.order_status = #{orderStatus},o.order_status = #{orderStatus},
+  	   <if test="acBal !=null and acBal != '' ">
+	    	a.AC_BAL =a.AC_BAL + #{acBal},
+	    </if>  	
+  </set>
+	  <where>
+	  	 a.agent_id = #{agentId}
+	  </where>
+  </update>
+
+<update id="updateQueyAmt" parameterType="java.util.Map">
+  UPDATE T_ACCOUNT a
+  LEFT JOIN T_JOIN j ON a.agent_id = j.agent_id
+  <set>
+  		<if test="acBal !=null and acBal != '' ">
+	    	a.AC_BAL =a.AC_BAL - #{sqamt},
+	    </if>  	
+	    <if test="frozBalance !=null and frozBalance != '' ">
+	    	a.froz_balance =a.froz_balance + #{sqamt},
+	    </if>  	
+  </set>
+  <where>
+  	  j.join_mutype = #{joinMutype}  and  a.ac_bal>#{acBal}
+  </where>
+</update>
+
+</mapper>  

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<mappers>  
+		<mapper resource="mapper/bUserDao.xml"/> 
+		<mapper resource="mapper/MutualDao.xml"/> 
+		<mapper resource="mapper/JoinDao.xml" />
+		<mapper resource="mapper/orderDao.xml" />
+		<mapper resource="mapper/AccountDao.xml" />
+		<mapper resource="mapper/AccountInfDao.xml" />
+		<mapper resource="mapper/custDao.xml" />
+		<mapper resource="mapper/RoleDao.xml" />
+		<mapper resource="mapper/AuthUserDao.xml" />
+		<mapper resource="mapper/MenuDao.xml" />
+ 	</mappers>  
+</configuration>

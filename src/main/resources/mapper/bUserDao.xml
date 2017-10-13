@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.match.dao.BUserDao">	
+	<resultMap type="java.util.LinkedHashMap" id="bUserInf">
+		<result column="user_id" property="userId"/>
+		<result column="wx_token" property="wxToken"/> 
+		<result column="consumer_no" property="consumerNo"/>
+		<result column="user_name" property="userName"/>
+		<result column="user_phone" property="userPhone"/>
+		<result column="user_password" property="userPassword"/>
+		<result column="user_email" property="userEmail"/>
+		<result column="user_zt" property="userZt"/>
+		<result column="user_nickname" property="userNickname"/>
+		<result column="user_realname" property="userRealname"/>
+		<result column="cred_type" property="credType"/>
+		<result column="user_credNumber" property="userCredNumber"/>
+		<result column="user_address" property="userAddress"/>
+		<result column="create_time" property="createTime"/>
+		<result column="is_agent" property="isAgent"/>
+		<result column="agent_id" property="agentId"/>
+		<result column="islock" property="islock"/>
+		<result column="islock_id" property="islockId"/>
+		<result column="islock_number" property="islockNumber"/>
+		<result column="islock_amt" property="islockAmt"/>
+		<result column="last_login_time" property="lastLoginTime"/>
+		<result column="last_login_ip" property="lastLoginIp"/>
+		<result column="pay_password" property="payPassword"/>
+		<result column="user_inte" property="userInte"/>
+		<result column="award_flag" property="awardFlag"/>
+		<result column="award_amt" property="awardAmt"/>
+	</resultMap>
+	
+	
+	<sql id="SQL_USER_QUERY">
+	    <if test="userId !=null and userId != '' ">
+	    	and user_id = #{userId}
+	    </if>
+	    <if test="consumerNo !=null and consumerNo != '' ">
+	    	and consumer_no = #{consumerNo}
+	    </if>
+	    <if test="userName !=null and userName != '' ">
+	    	and user_name = #{userName}
+	    </if>
+	    <if test="userPassword !=null and userPassword != '' ">
+	    	and user_password = #{userPassword}
+	    </if>
+	    <if test="userPhone !=null and userPhone != '' ">
+	    	and user_phone = #{userPhone}
+	    </if>
+	    <if test="userEmail !=null and userEmail != '' ">
+	    	and user_email = #{userEmail}
+	    </if>
+	    <if test="userZt !=null and userZt != '' ">
+	    	and user_zt = #{userZt}
+	    </if>
+	    <if test="userNickname !=null and userNickname != '' ">
+	    	and user_nickname = #{userNickname}
+	    </if>
+	    <if test="userRealname !=null and userRealname != '' ">
+	    	and user_realname = #{userRealname}
+	    </if>
+	    <if test="credType !=null and credType != '' ">
+	    	and cred_type = #{credType}
+	    </if>
+	    <if test="userCredNumber !=null and userCredNumber != '' ">
+	    	and user_credNumber = #{userCredNumber}
+	    </if>
+	    <if test="userAddress !=null and userAddress != '' ">
+	    	and user_address = #{userAddress}
+	    </if>
+	    <if test="createTime !=null and createTime != '' ">
+	    	and create_time = #{createTime}
+	    </if>
+	    <if test="isAgent !=null and isAgent != '' ">
+	    	and is_agent = #{isAgent}
+	    </if>
+	    <if test="agentId !=null and agentId != '' ">
+	    	and agent_id = #{agentId}
+	    </if>
+	    <if test="lastLoginTime !=null and lastLoginTime != '' ">
+	    	and last_login_time = #{lastLoginTime}
+	    </if>
+	    <if test="lastLoginIp !=null and lastLoginIp != '' ">
+	    	and last_login_ip = #{lastLoginIp}
+	    </if>
+	    <if test="payPassword !=null and payPassword != '' ">
+	    	and pay_password = #{payPassword}
+	    </if>
+	    <if test="islock !=null and islock != '' ">
+	    	and islock = #{islock}
+	    </if>
+	    <if test="islockId !=null and islockId != '' ">
+	    	and islock_id = #{islockId}
+	    </if>
+	    <if test="islockNumber !=null and islockNumber != '' ">
+	    	and islock_number = #{islockNumber}
+	    </if>
+	    <if test="islockAmt !=null and islockAmt != '' ">
+	    	and islock_amt = #{islockAmt}
+	    </if>
+	    <if test="userInte !=null and userInte != '' ">
+	    	and user_inte = #{userInte}
+	    </if>
+	    <if test="awardFlag !=null and awardFlag != '' ">
+	    	and award_flag = #{awardFlag}
+	    </if>
+	    <if test="awardAmt !=null and awardAmt != '' ">
+	    	and award_amt = #{awardAmt}
+	    </if>
+	</sql>
+	
+	<sql id="SQL_LIKE_QUERY">
+	    <if test="userName !=null and userName != '' ">
+	    	and user_name like CONCAT('%',#{userName},'%')
+	    </if>
+	    <if test="userRealname !=null and userRealname != '' ">
+	    	and user_realname like CONCAT('%',#{userRealname},'%') 
+	    </if>
+	    <if test="userCredNumber !=null and userCredNumber != '' ">
+	    	and user_credNumber like CONCAT('%',#{userCredNumber},'%')
+	    </if>
+	    <if test="userAddress !=null and userAddress != '' ">
+	    	and user_address  like CONCAT('%',#{userAddress},'%') 
+	    </if>
+	    <if test="islockId !=null and islockId != '' ">
+	    	and islock_id  like CONCAT('%',#{islockId},'%') 
+	    </if>
+	    <if test="awardFlag !=null and awardFlag != '' ">
+	    	and award_flag  like CONCAT('%',#{awardFlag},'%') 
+	    </if>
+	  
+	</sql>
+    <!-- 查找所有用户信息 -->
+    <select id="getUserList" parameterType="java.util.Map" resultMap="bUserInf">
+    	SELECT * FROM B_USER where 1=1
+    	<include refid="SQL_USER_QUERY" />
+    	<include refid="SQL_LIKE_QUERY" />
+    	ORDER BY user_id DESC
+    	<if test="pageSize != null and pageSize != ''">
+			<choose>
+		        <when test="startPage != null and startPage != ''">  
+		           LIMIT #{startPage},#{pageSize}
+		        </when>  
+		        <otherwise>  
+		            LIMIT #{pageSize}
+		        </otherwise>  
+		    </choose>  
+		</if>
+    </select>
+    
+    
+    <select id="getUserListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+      SELECT COUNT(1) FROM b_user 
+	  where 1=1
+      <include refid="SQL_USER_QUERY" />
+      <include refid="SQL_LIKE_QUERY" />
+    </select>
+    
+    <!-- 注册用户信息 -->
+     <insert id="registUser" parameterType="Map">
+		INSERT INTO b_user (		
+		consumer_no,
+		user_name,
+		user_phone,
+		user_password,
+		user_email,
+		user_nickname,
+		user_realname,
+		cred_type,
+		user_credNumber,
+		user_address,
+		create_time,
+		is_agent,
+		agent_id,
+		islock,
+		islock_id,
+		last_login_time,
+		last_login_ip,
+		pay_password,
+		islock_number,
+		islock_amt,
+		award_flag,
+		award_amt
+		)  SELECT
+			MAX(consumer_no)+1,
+			#{userName},
+			#{userPhone},
+			#{userPassword},
+			#{userEmail},
+			#{userNickname},
+			#{userRealname},
+			#{credType},
+			#{userCredNumber},
+			#{userAddress},
+			#{createTime},
+			#{isAgent},
+			CONCAT(MAX(consumer_no)+1,'001'),
+			#{islock},
+			#{islockId},
+			#{lastLoginTime},
+			#{lastLoginIp},
+			#{payPassword},
+			#{islockNumber},
+			#{islockAmt},
+			#{awardFlag},
+			#{awardAmt}
+		FROM b_user
+	</insert>
+	
+	
+	<!-- 编辑用户 -->
+	
+	<update id="updateUser" parameterType="Map">
+		UPDATE b_user
+			<set>
+				<if test="consumerNo !=null and consumerNo != '' ">
+			    	consumer_no = #{consumerNo},
+			    </if>
+			    <if test="userName !=null and userName != '' ">
+			    	user_name = #{userName},
+			    </if>
+			    <if test="userPassword !=null and userPassword != '' ">
+			    	user_password = #{userPassword},
+			    </if>
+			    <if test="userPhone !=null and userPhone != '' ">
+			    	user_phone = #{userPhone},
+			    </if>
+			    <if test="userEmail !=null and userEmail != '' ">
+			    	 user_email = #{userEmail},
+			    </if>
+			    <if test="userZt !=null and userZt != '' ">
+			    	 user_zt = #{userZt},
+			    </if>
+			    <if test="userNickname !=null and userNickname != '' ">
+			    	 user_nickname = #{userNickname},
+			    </if>
+			    <if test="userRealname !=null and userRealname != '' ">
+			    	 user_realname = #{userRealname},
+			    </if>
+			    <if test="credType !=null and credType != '' ">
+			    	 cred_type = #{credType},
+			    </if>
+			    <if test="userCredNumber !=null and userCredNumber != '' ">
+			    	 user_credNumber = #{userCredNumber},
+			    </if>
+			    <if test="userAddress !=null and userAddress != '' ">
+			    	 user_address = #{userAddress},
+			    </if>
+			    <if test="createTime !=null and createTime != '' ">
+			    	 create_time = #{createTime},
+			    </if>
+			    <if test="isAgent !=null and isAgent != '' ">
+			    	 is_agent = #{isAgent},
+			    </if>
+			    <if test="agentId !=null and agentId != '' ">
+			    	 agent_id = #{agentId},
+			    </if>
+			    <if test="lastLoginTime !=null and lastLoginTime != '' ">
+			    	 last_login_time = #{lastLoginTime},
+			    </if>
+			    <if test="lastLoginIp !=null and lastLoginIp != '' ">
+			    	 last_login_ip = #{lastLoginIp},
+			    </if>
+			    <if test="payPassword !=null and payPassword != '' ">
+			    	 pay_password = #{payPassword},
+			    </if>
+			    <if test="islock !=null and islock != '' ">
+			    	 islock = #{islock},
+			    </if>
+			    <if test="islockId !=null and islockId != '' ">
+			    	 islock_id = #{islockId},
+			    </if>
+			    <if test="islockNumber !=null and islockNumber != '' ">
+			    	 islock_number = #{islockNumber},
+			    </if>
+			    <if test="islockAmt !=null and islockAmt != '' ">
+			    	 islock_amt = #{islockAmt},
+			    </if>
+			    <if test="awardFlag !=null and awardFlag != '' ">
+			    	 award_flag = #{awardFlag},
+			    </if>
+			    <if test="awardAmt !=null and awardAmt != '' ">
+			    	 award_amt = #{awardAmt}
+			    </if>
+			</set>
+		WHERE user_id = #{userId}
+	</update>
+	
+	<!-- 查询用户是否存在 -->
+	<select id="queryUserByAll" parameterType="Map" resultMap="bUserInf">
+	  SELECT * FROM b_user where 1=1
+	  <include refid="SQL_USER_QUERY" />
+	</select>
+	
+	
+	
+	
+<!-- 	<select id="findByUser" parameterType="Map" resultMap="authUserInf">
+	  SELECT * FROM AUTH_USER_INF a where 1=1
+	  <include refid="SQL_ORDER_QUERY" />
+	</select>
+	
+	<select id="findByUserPage" parameterType="Map" resultMap="authUserInf">
+	    SELECT * FROM AUTH_USER_INF a where 1 = 1
+	     <include refid="SQL_ORDER_QUERY" />
+	       ORDER BY a.ID DESC
+	      <if test="pageSize != null and pageSize != ''">
+			<choose>
+		        <when test="startPage != null and startPage != ''">  
+		           LIMIT #{startPage},#{pageSize}
+		        </when>  
+		        <otherwise>  
+		            LIMIT #{pageSize}
+		        </otherwise>  
+		    </choose>  
+		</if>
+	</select>
+	
+	<select id="queryByUser" parameterType="Map" resultMap="authUserInf">
+		SELECT * FROM auth_user_inf a  
+		LEFT JOIN auth_user_role_rel_inf b ON a.ID = b.U_ID 
+   		LEFT JOIN auth_role_inf c ON c.ROLE_ID = b.R_ID 
+   		WHERE 1=1
+   		 <include refid="SQL_ORDER_QUERY" />
+	       ORDER BY a.ID DESC
+	</select>
+	
+	
+	<select id="getUserCount" resultType="java.lang.Integer" parameterType="Map">
+	  SELECT COUNT(*) FROM  auth_user_inf where 1=1
+	    <if test="roleName!=null and roleName!=''">
+	   	    and USER_NAME like CONCAT('%',#{userName},'%' )  
+	   </if>
+	   <if test="roleDesc!=null and roleDesc!=''">
+	   	    and USER_ID like CONCAT('%',#{userId},'%' )  
+	   </if>
+	   <if test="sysId !=null and sysId !=''">
+	   		and sys_id = #{sysId}
+	   </if>
+	</select>
+	
+	<insert id="insertAuthUser" parameterType="Map">
+		INSERT INTO auth_user_inf (
+		    USER_ID,
+			USER_NAME,
+		  	USER_PWD,
+		  	USER_STATUS,
+		  	SYS_ID,
+		  	LNUM,
+		  	ENUM,
+		  	LAST_LOGIN_TIME,
+		  	PHONE,
+		  	MER_ID,
+		  	EMAIL,
+		  	IP_WHITE,
+		  	ADDRESS_WHITE
+		) VALUES (
+			#{userId},#{userName},#{userPwd},1,#{sysId},0,0,#{lastLoginTime},#{phone},#{merId},#{email},#{ipWhite},#{addressWhite}
+		)
+	</insert>
+	
+	
+	<update id="updateAuthUser" parameterType="Map">
+		UPDATE auth_user_inf
+			<set>
+				<if test="userId != null and userId != ''">
+					user_id = #{userId},
+				</if>
+				<if test="userName != null and userName != ''">
+					USER_NAME = #{userName},
+				</if>
+				<if test="userPwd != null and userPwd != ''">
+					USER_PWD = #{userPwd},
+				</if>
+				<if test="userRandom != null and userRandom != ''">
+					USER_RANDOM = #{userRandom},
+				</if>
+				<if test="userStatus != null and userStatus != ''">
+					USER_STATUS = #{userStatus},
+				</if>
+				<if test="sysId != null and sysId != ''">
+					SYS_ID = #{sysId},
+				</if>
+				<if test="lnum != null and lnum != ''">
+					LNUM = #{lnum},
+				</if>
+				<if test="enum != null and enum != ''">
+					ENUM = #{enum},
+				</if>
+				<if test="lastLoginTime != null and lastLoginTime != ''">
+					LAST_LOGIN_TIME = #{lastLoginTime},
+				</if>
+				<if test="lastLoginIp != null and lastLoginIp != ''">
+					LAST_LOGIN_IP = #{lastLoginIp},
+				</if>
+				<if test="phone != null and phone != ''">
+					PHONE = #{phone},
+				</if>
+				<if test="merId != null and merId != ''">
+					MER_ID = #{merId},
+				</if>
+				<if test="email != null and email != ''">
+					EMAIL = #{email},
+				</if>
+				<if test="ipWhite != null and ipWhite != ''">
+					IP_WHITE = #{ipWhite},
+				</if>
+				<if test="addressWhite != null and addressWhite != ''">
+					ADDRESS_WHITE = #{addressWhite},
+				</if>
+			</set>
+		WHERE id = #{id}
+	</update>
+	
+	<select id="selectAuthUser" parameterType="Map" resultMap="authUserInf">
+		select * from auth_user_inf 
+			where 1=1
+				<if test=" userId != null and userId != '' ">
+					and USER_ID =#{userId}
+				</if>
+				<if test=" userPwd != null and userPwd != '' ">
+					and USER_PWD =#{userPwd}
+				</if>
+				<if test=" merId != null and merId != '' ">
+					and MER_ID =#{merId}
+				</if>
+				<if test=" sysId!= null and sysId !=''">
+				   and SYS_ID = #{sysId}
+				</if>
+				<if test="email != null and email != '' ">
+					and EMAIL = #{email}
+				</if>
+	</select>
+	
+	
+	<select id="findRolMenu" parameterType="Map" resultMap="authUserInf" >
+		SELECT ROLE_ID,ROLE_NAME FROM  auth_role_inf
+	</select>
+	
+	<select id="findUserMenu" parameterType="Map" resultMap="authUserInf" >
+	    SELECT * FROM auth_user_role_rel_inf  where U_ID = #{uId}
+	</select>
+	
+	插入角色
+	<insert id="insertUserData"   parameterType="Map">  
+  		insert into auth_user_role_rel_inf(U_ID,R_ID) values  
+         <foreach collection="privIds" index="index" item="item" separator=",">
+          ( #{userId},#{item} )
+      </foreach>
+  </insert>  
+  
+  删除用户角色表
+  <delete id="deleteUserMenu">
+    DELETE FROM auth_user_role_rel_inf  WHERE U_ID = #{userId}
+  </delete>
+
+	<update id="updateUserPwd" parameterType="Map">
+		update auth_user_inf 
+		<set>
+			<if test="userPwd != null and userPwd != ''">
+				USER_PWD = #{userPwd},
+			</if>
+		</set> 
+		WHERE ID = #{id}
+	</update>
+	 -->
+	
+
+
+</mapper>  

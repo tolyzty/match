@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.match.dao.AccountInfDao">	
+	<resultMap type="java.util.LinkedHashMap" id="accountInf">
+		<result column="account_id" property="accountId"/>
+		<result column="consumer_no" property="consumerNo"/>
+		<result column="account_no" property="accountNo"/>
+		<result column="mu_type" property="muType"/>
+		<result column="old_ac_bal" property="oldAcBal"/>
+		<result column="ac_bal" property="acBal"/>	
+		<result column="ac_bal_cz" property="acBalcz"/>	
+		<result column="old_froz_balance" property="oldFrozBalance"/>
+		<result column="froz_balance" property="frozBalance"/>
+		<result column="lst_tx_datetime" property="lstTxDatetime"/>
+		<result column="change_type" property="changeType"/>		
+		<result column="acc_order_no" property="accOrderNo"/>		
+		<result column="log_date_time" property="logDateTime"/>		
+		<result column="change_desc" property="changeDesc"/>		
+		<result column="account_zt" property="accountZt"/>	
+		<result column="agent_id"  property="agentId"  /> 			
+		<result column="order_status"  property="orderStatus"  /> 			
+	</resultMap>
+	
+	
+	<sql id="SQL_ACCOUNT_INF_QUERY">
+	    <if test="accountId !=null and accountId != '' ">
+	    	and account_id = #{accountId}
+	    </if>
+	    <if test="consumerNo !=null and consumerNo != '' ">
+	    	and consumer_no = #{consumerNo}
+	    </if>
+	    <if test="muType !=null and muType != '' ">
+	    	and mu_type = #{muType}
+	    </if>
+	    <if test="oldAcBal !=null and oldAcBal != '' ">
+	    	and old_ac_bal = #{oldAcBal}
+	    </if>
+	    <if test="acBal !=null and acBal != '' ">
+	    	and ac_bal = #{acBal}
+	    </if>
+	    <if test="acBalcz !=null and acBalcz != '' ">
+	    	and ac_bal_cz = #{acBalcz}
+	    </if>
+	    <if test="oldFrozBalance !=null and oldFrozBalance != '' ">
+	    	and old_froz_balance = #{oldFrozBalance}
+	    </if>
+	    <if test="frozBalance !=null and frozBalance != '' ">
+	    	and froz_balance = #{frozBalance}
+	    </if>
+	    <if test="lstTxDatetime !=null and lstTxDatetime != '' ">
+	    	and lst_tx_datetime = #{lstTxDatetime}
+	    </if>
+	    <if test="changeType !=null and changeType != '' ">
+	    	and change_type = #{changeType}
+	    </if>
+	    <if test="accOrderNo !=null and accOrderNo != '' ">
+	    	and acc_order_no = #{accOrderNo}
+	    </if>
+	    <if test="logDateTime !=null and logDateTime != '' ">
+	    	and log_date_time = #{logDateTime}
+	    </if>
+	    <if test="accountZt !=null and accountZt != '' ">
+	    	and account_zt = #{accountZt}
+	    </if>
+	    <if test="agentId !=null and agentId != '' ">
+	    	and agent_id = #{agentId}
+	    </if>
+	    <if test="orderStatus !=null and orderStatus != '' ">
+	    	and order_status = #{orderStatus}
+	    </if>
+	  
+	</sql>
+	
+    <!-- 查找所有帐户信息 -->
+    <select id="getAccountList" parameterType="java.util.Map" resultMap="accountInf">
+    	select * from t_account_inf where 1=1 
+    	<include refid="SQL_ACCOUNT_INF_QUERY" />
+    	ORDER BY account_id desc
+    	<if test="pageSize != null and pageSize != ''">
+			<choose>
+		        <when test="startPage != null and startPage != ''">  
+		           LIMIT #{startPage},#{pageSize}
+		        </when>  
+		        <otherwise>  
+		            LIMIT #{pageSize}
+		        </otherwise>  
+		    </choose>  
+		</if>
+    </select>
+   
+    <select id="findCountInf" parameterType="java.util.Map" resultType="java.lang.Integer">
+    	SELECT COUNT(1) FROM T_ACCOUNT_INF
+    	WHERE 1=1
+    	<include refid="SQL_ACCOUNT_INF_QUERY" />
+    </select>
+   
+   <insert id="inserAccountInf" parameterType="java.util.Map">
+   	 insert into t_account_inf(
+		consumer_no,
+		account_no,
+		mu_type,
+		old_ac_bal,
+		ac_bal,
+		ac_bal_cz,
+		old_froz_balance,
+		lst_tx_datetime,
+		change_type,
+		change_desc,
+		log_date_time,
+		agent_id,
+		order_status
+   	 ) VALUES(
+   	 	#{consumerNo},
+   	 	#{accountNo},
+   	 	#{muType},
+   	 	#{oldAcBal},
+   	 	#{acBal},
+   	 	#{acBalcz},
+   	 	#{oldFrozBalance},
+   	 	#{lstTxDatetime},
+   	 	#{changeType},
+   	 	#{changeDesc},
+   	 	#{logDateTime},
+   	 	#{agentId},
+   	 	#{orderStatus}
+   	 )
+   	 
+   	
+   	 
+   	 
+   </insert>
+		
+    <select id="findByQuery"  parameterType="java.util.Map" resultMap="accountInf">
+    	SELECT * FROM t_account_inf  where 1=1 
+    	<include refid="SQL_ACCOUNT_INF_QUERY" />
+        ORDER BY account_id DESC limit 1 
+    </select>
+
+</mapper>  

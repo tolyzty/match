@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.match.dao.RoleDao">
+	
+	<resultMap type="Map" id="roleMap">
+		<result column="role_id" property="roleId" />
+		<result column="role_name" property="roleName" />
+		<result column="role_desc" property="roleDesc" />
+		<result column="role_status" property="roleStatus" />
+		<result column="sys_id" property="sysId" />
+		<result column="mer_id" property="merId" />
+	    <result column="menu_id" property="menuId" />
+		<result column="menu_par_id" property="menuParId" />
+		<result column="menu_name" property="menuName" />
+		<result column="menu_url" property="menuUrl" />
+		<result column="menu_status" property="menuStatus" />
+		<result column="menu_type" property="menuType" />
+		<result column="menu_is_leaf" property="menuIsLeaf" />
+		<result column="auth_url" property="authUrl" />
+	</resultMap>
+	
+	<select id="findAll" parameterType="Map" resultMap="roleMap" >
+		SELECT * FROM auth_role_inf 
+	</select>
+	
+	<insert id="insertRole" parameterType="Map" >
+		 insert into auth_role_inf values(
+		 	#{roleId},
+			<if test="roleName != null and roleName != ''">
+				#{roleName},
+			</if>
+			<if test="roleName == null or roleName == ''">
+				null,
+			</if>
+			#{roleDesc},#{roleStatus},#{sysId},#{merId}
+		 )
+ 
+	</insert>
+	
+	  <update id="updateById" parameterType="Map" >
+    		update auth_role_inf
+    	<set> 
+	      <if test="roleName != null and roleName !=''">
+					role_name = #{roleName},
+		  </if>
+		  <if test="roleDesc != null and roleDesc !=''">
+					role_desc = #{roleDesc},
+		  </if>
+		  <if test="roleStatus != null and roleStatus !=''">
+					role_status = #{roleStatus},
+		  </if>
+		  <if test="sysId != null and sysId !=''">
+					sys_id = #{sysId},
+		  </if>
+		  <if test="merId != null and merId !=''">
+					mer_id = #{merId},
+		  </if>
+      	</set>
+   			 where role_id = #{roleId}
+  </update>
+	
+	<select id="findById" parameterType="Map" resultMap="roleMap">
+		select * from auth_role_inf where role_id = #{roleId}
+	</select>
+	
+	
+	<select id="findByKayId" parameterType="Map" resultMap="roleMap">
+		SELECT * FROM auth_role_inf a 
+				LEFT JOIN auth_user_role_rel_inf b 
+					ON a.ROLE_ID = b.R_ID 
+				LEFT JOIN auth_user c 
+					ON b.U_ID = c.ID 
+				WHERE b.R_ID = #{roleId}
+	</select>
+	
+	<delete id="deletes" parameterType="Map">
+		DELETE FROM auth_role_inf WHERE role_id = #{roleId}
+	</delete>
+	
+	
+	<select id="findByPage" parameterType="Map" resultMap="roleMap">
+	SELECT * FROM auth_role_inf where 1=1
+	<if test="roleName!=null and roleName !=''">
+		  AND ROLE_NAME like CONCAT('%',#{roleName},'%')
+	</if>
+		ORDER BY ROLE_ID DESC
+	 <if test="pageSize != null and pageSize != ''">
+			<choose>
+		        <when test="startPage != null and startPage != ''">  
+		           LIMIT #{startPage},#{pageSize}
+		        </when>  
+		        <otherwise>  
+		            LIMIT #{pageSize}
+		        </otherwise>  
+		    </choose>  
+	</if>
+	</select>
+	
+	<select id="findByCount" resultType="java.lang.Integer" parameterType="Map">
+	  SELECT COUNT(*) FROM  auth_role_inf 
+	  <where>
+	    <if test="roleName!=null and roleName!=''">
+	   	     role_name like CONCAT('%',#{roleName},'%' )  
+	   </if>
+	   <if test="roleDesc!=null and roleDesc!=''">
+	   	     role_desc like CONCAT('%',#{roleDesc},'%' )  
+	   </if>
+	  </where>
+	</select>
+	
+	<select id="findRoleMenu" parameterType="Map" resultMap="roleMap" >
+	 SELECT * FROM auth_role_menu_rel_inf  where r_id = #{rId}
+	</select>
+	
+	<select id="findMenu" parameterType="Map" resultMap="roleMap" >
+		SELECT * FROM  auth_menu_inf
+	</select>
+	
+	<insert id="insertCheckData"   parameterType="Map">  
+  		insert into auth_role_menu_rel_inf(R_ID,MENU_ID) values  
+         <foreach collection="privIds" index="index" item="item" separator=",">
+          ( #{userId},#{item} )
+      </foreach>
+  </insert>  
+  
+  <delete id="deleteMenu">
+    DELETE FROM auth_role_menu_rel_inf  WHERE R_ID = #{userId}
+  </delete>
+	
+</mapper>  

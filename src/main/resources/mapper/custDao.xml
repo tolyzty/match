@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.match.dao.CustDao">	
+	<resultMap type="java.util.LinkedHashMap" id="custInf">
+		<result column="agent_id" property="agentId"/>
+		<result column="cust_id" property="custId"/>
+		<result column="j_id" property="jId"/>
+		<result column="cust_name" property="custName"/>
+		<result column="cust_gender" property="custGender"/>
+		<result column="cust_address" property="custAddress"/>
+		<result column="cust_amt" property="custAmt"/>
+		<result column="cust_time" property="custTime"/>
+		<result column="cust_subtime" property="custSubtime"/>
+		<result column="cust_desc" property="custDesc"/>		
+		<result column="cust_other" property="custOther"/>
+		<result column="cust_numbers" property="custNumbers"/>
+		<result column="cust_mutype" property="custMutype"/>
+		<result column="cust_status" property="custStatus"/>
+		
+		<!-- Account表余额 -->
+		<result column="ac_bal" property="acBal"/>
+		
+		
+		<result column="join_id" property="joinId"/>
+		<result column="consumer_no" property="consumerNo"/>
+		<result column="mu_id" property="muId"/>
+		<result column="event_nubmer" property="eventNubmer"/>
+		<result column="join_name" property="joinName"/>
+		<result column="join_card" property="joinCard"/>
+		<result column="join_amt" property="joinAmt"/>
+		<result column="join_vipzg" property="joinVipzg"/>
+		<result column="join_time" property="joinTime"/>
+		<result column="join_vipsu_time" property="joinVipsuTime"/>		
+		<result column="join_effetime" property="joinEffetime"/>
+		<result column="join_nomoney" property="joinNomoney"/>
+		<result column="join_zt" property="joinZt"/>
+		<result column="join_mutype" property="joinMutype"/>
+		<result column="join_type" property="joinType"/>
+		<result column="join_status" property="joinStatus"/>
+		<result column="cust_zt" property="custZt" />
+	</resultMap>
+	<sql id="SQL_CUST_LIKE">
+		  <if test="agentId !=null and agentId != '' ">
+	    	and c.agent_id LIKE CONCAT('%',#{consumerNo},'%')
+	    </if>
+	</sql>
+	
+	<sql id="SQL_CUST_QUERY">
+	    <if test="agentId !=null and agentId != '' ">
+	    	and c.agent_id = #{agentId}
+	    </if>	    
+	    <if test="custId !=null and custId != '' ">
+	    	and c.cust_id = #{custId}
+	    </if>
+	    <if test="jId !=null and jId != '' ">
+	    	and c.j_id = #{jId}
+	    </if>
+	    <if test="custName !=null and custName != '' ">
+	    	and c.cust_name = #{custName}
+	    </if>
+	    <if test="custGender !=null and custGender != '' ">
+	    	and c.cust_gender = #{custGender}
+	    </if>
+	    <if test="custAddress !=null and custAddress != '' ">
+	    	and c.cust_address = #{custAddress}
+	    </if>
+	    <if test="custAmt !=null and custAmt != '' ">
+	    	and c.cust_amt = #{custAmt}
+	    </if>
+	    <if test="custTime !=null and custTime != '' ">
+	    	and c.cust_time = #{custTime}
+	    </if>
+	    <if test="custSubtime !=null and custSubtime != '' ">
+	    	and c.cust_subtime = #{custSubtime}
+	    </if>
+	    <if test="custDesc !=null and custDesc != '' ">
+	    	and c.cust_desc = #{custDesc}
+	    </if>
+	    <if test="custOther !=null and custOther != '' ">
+	    	and c.cust_other = #{custOther}
+	    </if>
+	    <if test="custNumbers !=null and custNumbers != '' ">
+	    	and c.cust_numbers = #{custNumbers}
+	    </if>
+	    <if test="custMutype !=null and custMutype != '' ">
+	    	and c.cust_mutype = #{custMutype}
+	    </if>
+	    <if test="custStatus !=null and custStatus != '' ">
+	    	and c.cust_status = #{custStatus}
+	    </if>
+	</sql>
+	
+	<sql id="SQL_JOIN_QUERY">
+	    <if test="joinId !=null and joinId != '' ">
+	    	and j.join_id = #{joinId}
+	    </if>
+	    <if test="muId !=null and muId != '' ">
+	    	and j.mu_id = #{muId}
+	    </if>
+	    <if test="consumerNo !=null and consumerNo != '' ">
+	    	and j.consumer_no = #{consumerNo}
+	    </if>
+	    <if test="eventNubmer !=null and eventNubmer != '' ">
+	    	and j.event_nubmer = #{eventNubmer}
+	    </if>
+	    <if test="joinName !=null and joinName != '' ">
+	    	and j.join_name = #{joinName}
+	    </if>
+	    <if test="joinCard !=null and joinCard != '' ">
+	    	and j.join_card = #{joinCard}
+	    </if>
+	    <if test="joinAmt !=null and joinAmt != '' ">
+	    	and j.join_amt = #{joinAmt}
+	    </if>
+	    <if test="joinVipzg !=null and joinVipzg != '' ">
+	    	and j.join_vipzg = #{joinVipzg}
+	    </if>
+	    <if test="joinTime !=null and joinTime != '' ">
+	    	and j.join_time = #{joinTime}
+	    </if>
+	    <if test="joinVipsuTime !=null and joinVipsuTime != '' ">
+	    	and j.join_vipsu_time = #{joinVipsuTime}
+	    </if>
+	    <if test="joinEffetime !=null and joinEffetime != '' ">
+	    	and j.join_effetime = #{joinEffetime}
+	    </if>
+	    <if test="joinNomoney !=null and joinNomoney != '' ">
+	    	and j.join_nomoney = #{joinNomoney}
+	    </if>
+	    <if test="joinZt !=null and joinZt != '' ">
+	    	and j.join_zt = #{joinZt}
+	    </if>
+	    <if test="joinType !=null and joinType != '' ">
+	    	and j.join_type = #{joinType}
+	    </if>
+	    <if test="joinMutype !=null and joinMutype != '' ">
+	    	and j.join_mutype = #{joinMutype}
+	    </if>
+	    <if test="agentId !=null and agentId != '' ">
+	    	and j.agent_id = #{agentId}
+	    </if>
+	    <if test="joinStatus !=null and joinStatus != '' ">
+	    	and j.join_status = #{joinStatus}
+	    </if>
+	    <if test="custZt !=null and custZt != '' ">
+	    	and j.cust_zt = #{custZt}
+	    </if>
+	</sql>
+	
+	
+	
+    <!-- 查找所有互助申请人信息 -->
+    <select id="getCustList" parameterType="java.util.Map" resultMap="custInf">
+    SELECT c.cust_id,c.agent_id,c.cust_name,c.cust_gender,c.cust_address,c.cust_amt,c.cust_mutype,
+	c.cust_time,c.cust_subtime,c.cust_numbers,c.cust_status,j.join_id,j.consumer_no,j.join_card,j.join_vipzg,j.join_time,
+	j.join_vipsu_time,a.ac_bal,a.froz_balance
+	FROM t_cust c 
+    LEFT JOIN t_join j ON c.agent_id = j.agent_id 
+    LEFT JOIN t_account a ON c.agent_id = a.agent_id
+    where 1=1
+    	<include refid="SQL_JOIN_QUERY" />
+    	<include refid="SQL_CUST_QUERY" />
+    	ORDER BY c.cust_id desc
+    	<if test="pageSize != null and pageSize != ''">
+			<choose>
+		        <when test="startPage != null and startPage != ''">  
+		           LIMIT #{startPage},#{pageSize}
+		        </when>  
+		        <otherwise>  
+		            LIMIT #{pageSize}
+		        </otherwise>  
+		    </choose>  
+		</if>
+    </select>
+    
+    <select id="getCustCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+     SELECT COUNT(1) FROM t_cust c LEFT JOIN t_join j ON c.agent_id = j.agent_id 
+    	where 1=1
+      	<include refid="SQL_JOIN_QUERY" />
+    	<include refid="SQL_CUST_QUERY" />
+    </select>
+    
+    <select id="queryCust" parameterType="java.util.Map" resultMap="custInf">
+     SELECT * FROM T_CUST c WHERE 1=1
+    	<include refid="SQL_CUST_QUERY" />
+    </select>
+    
+    <insert id="addCust" parameterType="java.util.Map">
+    	INSERT INTO T_CUST (
+			j_id,
+			agent_id,
+			cust_name,
+			cust_gender,
+			cust_address,
+			cust_amt,
+			cust_mutype,
+			cust_time,
+			cust_numbers		
+    	) values (
+    		 #{jId},
+    		 #{agentId},
+    		 #{custName},
+    		 #{custGender},
+    		 #{custAddress},
+    		 #{custAmt},
+    		 #{custMutype},
+    		 #{custTime},
+    		 #{custNumbers}
+    	)
+    </insert>
+    <update id="updateCust" parameterType="java.util.Map">
+    	update t_cust c
+    	<set>
+		    <if test="custName !=null and custName != '' ">
+		    	 c.cust_name = #{custName},
+		    </if>
+		    <if test="custGender !=null and custGender != '' ">
+		    	 c.cust_gender = #{custGender},
+		    </if>
+		    <if test="custAddress !=null and custAddress != '' ">
+		    	 c.cust_address = #{custAddress},
+		    </if>
+		    <if test="custAmt !=null and custAmt != '' ">
+		    	 c.cust_amt = #{custAmt},
+		    </if>
+		    <if test="custTime !=null and custTime != '' ">
+		    	 c.cust_time = #{custTime},
+		    </if>
+		    <if test="custSubtime !=null and custSubtime != '' ">
+		    	 c.cust_subtime = #{custSubtime},
+		    </if>
+		    <if test="custDesc !=null and custDesc != '' ">
+		    	 c.cust_desc = #{custDesc},
+		    </if>
+		    <if test="custOther !=null and custOther != '' ">
+		    	 c.cust_other = #{custOther},
+		    </if>
+		    <if test="custNumbers !=null and custNumbers != '' ">
+		    	 c.cust_numbers = #{custNumbers}
+		    </if>
+    	</set>
+    	<where>
+		    	c.agentId = #{agentId}
+    	</where>
+    </update>
+  
+</mapper>  

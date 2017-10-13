@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.match.dao.JoinDao">	
+	<resultMap type="java.util.LinkedHashMap" id="joinInf">
+		<!-- 两张表都有字段  -->
+		<result column="agent_id" property="agentId"/>
+		<result column="consumer_no" property="consumerNo"/>
+		
+		<result column="join_id" property="joinId"/>
+		<result column="mu_id" property="muId"/>
+		<result column="event_nubmer" property="eventNubmer"/>
+		<result column="join_name" property="joinName"/>
+		<result column="join_card" property="joinCard"/>
+		<result column="join_amt" property="joinAmt"/>
+		<result column="join_vipzg" property="joinVipzg"/>
+		<result column="join_crisis_time" property="joinCrisisTime"/>
+		
+		<result column="join_time" property="joinTime"/>
+		<result column="join_vipsu_time" property="joinVipsuTime"/>		
+		<result column="join_effetime" property="joinEffetime"/>
+		<result column="join_nomoney" property="joinNomoney"/>
+		<result column="join_zt" property="joinZt"/>
+		<result column="join_mutype" property="joinMutype"/>
+		<result column="join_type" property="joinType"/>
+		<result column="join_status" property="joinStatus"/>
+		<result column="cust_zt" property="custZt" />
+		
+		<result property="accountId"   column="account_id" /> 
+	    <result property="accountNo"   column="account_no" /> 
+	    <result property="muType"      column="MU_TYPE" /> 
+	    <result property="acBal"        column="AC_BAL" /> 
+	    <result property="frozBalance"  column="FROZ_BALANCE" /> 
+	    <result property="lstTxDatetime" column="LST_TX_DATETIME" /> 
+	    <result property="resField2"       column="RES_FIELD2" /> 
+	    <result property="resField3"       column="RES_FIELD3" /> 
+	    <result property="accountStatus"   column="ACCOUNT_STATUS" /> 	
+	    <result property="orderStatus"   column="order_status" /> 	
+	    
+	    <!-- CUST表 -->
+	    <result property="custStatus" column="cust_status" />
+	    <result property="custNumbers" column="cust_numbers" />
+	    <!-- MUTUAL表 -->
+	    <result column="mutual_id" property="mutualId"/>
+		<result column="mutual_name" property="mutualName"/>
+		<result column="mutual_amt" property="mutualAmt"/>
+		<result column="mutual_preamt" property="mutualPreamt"/>
+		<result column="mutual_number" property="mutualNumber"/>
+		<result column="mutual_event" property="mutualEvent"/>
+		<result column="mutual_type" property="mutualType"/>
+		<result column="mutual_mumamt" property="mutualMumamt"/>
+		<result column="mutual_under" property="mutualUnder"/>
+		<result column="mutual_charge" property="mutualCharge"/>
+		<result column="mutual_content" property="mutualContent"/>
+		<result column="mutual_offeramt" property="mutualOfferamt"/>
+		<result column="mutual_vipdesc" property="mutualVipdesc"/>
+		<result column="mutual_vipzg" property="mutualVipzg"/>
+		<result column="mutual_claims" property="mutualClaims"/>
+		<result column="mutual_other" property="mutualOther"/>
+		<result column="mutual_time" property="mutualTime"/>
+		<result column="mutual_age" property="mutualAge"/>
+		<result column="mutual_zt" property="mutualZt"/>
+	    
+	</resultMap>
+	<sql id="SQL_JOIN_LIKE">
+		  <if test="agentId !=null and agentId != '' ">
+	    	and j.agent_id LIKE CONCAT('%',#{consumerNo},'%')
+	    </if>
+	</sql>
+	
+	<sql id="SQL_JOIN_QUERY">
+	    <if test="joinId !=null and joinId != '' ">
+	    	and j.join_id = #{joinId}
+	    </if>
+	    <if test="muId !=null and muId != '' ">
+	    	and j.mu_id = #{muId}
+	    </if>
+	    <if test="consumerNo !=null and consumerNo != '' ">
+	    	and j.consumer_no = #{consumerNo}
+	    </if>
+	    <if test="eventNubmer !=null and eventNubmer != '' ">
+	    	and j.event_nubmer = #{eventNubmer}
+	    </if>
+	    <if test="joinName !=null and joinName != '' ">
+	    	and j.join_name = #{joinName}
+	    </if>
+	    <if test="joinCard !=null and joinCard != '' ">
+	    	and j.join_card = #{joinCard}
+	    </if>
+	    <if test="joinAmt !=null and joinAmt != '' ">
+	    	and j.join_amt = #{joinAmt}
+	    </if>
+	    <if test="joinVipzg !=null and joinVipzg != '' ">
+	    	and j.join_vipzg = #{joinVipzg}
+	    </if>
+	    <if test="joinTime !=null and joinTime != '' ">
+	    	and j.join_time = #{joinTime}
+	    </if>
+	    <if test="joinCrisisTime !=null and joinCrisisTime != '' ">
+	    	and j.join_crisis_time = #{joinCrisisTime}
+	    </if>
+	    <if test="joinVipsuTime !=null and joinVipsuTime != '' ">
+	    	and j.join_vipsu_time = #{joinVipsuTime}
+	    </if>
+	    <if test="joinEffetime !=null and joinEffetime != '' ">
+	    	and j.join_effetime = #{joinEffetime}
+	    </if>
+	    <if test="joinNomoney !=null and joinNomoney != '' ">
+	    	and j.join_nomoney = #{joinNomoney}
+	    </if>
+	    <if test="joinZt !=null and joinZt != '' ">
+	    	and j.join_zt = #{joinZt}
+	    </if>
+	    <if test="joinType !=null and joinType != '' ">
+	    	and j.join_type = #{joinType}
+	    </if>
+	    <if test="joinMutype !=null and joinMutype != '' ">
+	    	and j.join_mutype = #{joinMutype}
+	    </if>
+	    <if test="agentId !=null and agentId != '' ">
+	    	and j.agent_id = #{agentId}
+	    </if>
+	    <if test="joinStatus !=null and joinStatus != '' ">
+	    	and j.join_status = #{joinStatus}
+	    </if>
+	    <if test="custZt !=null and custZt != '' ">
+	    	and j.cust_zt = #{custZt}
+	    </if>
+	</sql>
+	
+	
+	<sql id="SQL_ACCOUNT_QUERY">   
+	    <if test="accountId !=null and accountId != '' ">
+	    	and a.account_id = #{accountId}
+	    </if>
+	    <if test="consumerNo !=null and consumerNo != '' ">
+	    	and a.consumer_no = #{consumerNo}
+	    </if>
+	    <if test="accountNo !=null and accountNo != '' ">
+	    	and a.account_no = #{accountNo}
+	    </if>
+	    <if test="muType !=null and muType != '' ">
+	    	and a.mu_type = #{muType}
+	    </if>  
+	    <if test="acBal !=null and acBal != '' ">
+	    	and a.ac_bal = #{acBal}
+	    </if>
+	    <if test="frozBalance !=null and frozBalance != '' ">
+	    	and a.froz_balance = #{frozBalance}
+	    </if>
+	    <if test="lstTxDatetime !=null and lstTxDatetime != '' ">
+	    	and a.lst_txDate_time = #{lstTxDatetime}
+	    </if>
+	    <if test="accountStatus !=null and accountStatus != '' ">
+	    	and a.account_status = #{accountStatus}
+	    </if>
+	    <if test="agentId !=null and agentId != '' ">
+	    	and a.agent_id = #{agentId}
+	    </if>  
+	    <if test="orderStatus !=null and orderStatus != '' ">
+	    	and a.order_status = #{orderStatus}
+	    </if>  
+	</sql>
+	
+    <!-- 查找所有加入信息 -->
+    <select id="getJoinList" parameterType="java.util.Map" resultMap="joinInf">
+    	select j.join_nomoney,j.join_effetime,j.join_amt,j.join_id,j.consumer_no,j.agent_id,j.join_name,j.join_card,j.join_vipzg, a.order_status,
+	j.join_time,j.join_vipsu_time,j.join_mutype,j.join_status,a.ac_bal,a.account_status,a.lst_tx_datetime,
+	a.froz_balance,c.cust_status,c.cust_numbers,j.join_crisis_time
+	from t_join j LEFT JOIN t_account a ON j.agent_id = a.agent_id 
+	LEFT JOIN t_cust c ON j.agent_id = c.agent_id
+	where 1=1
+    	<include refid="SQL_JOIN_QUERY" />
+    	ORDER BY join_id desc
+    	<if test="pageSize != null and pageSize != ''">
+			<choose>
+		        <when test="startPage != null and startPage != ''">  
+		           LIMIT #{startPage},#{pageSize}
+		        </when>  
+		        <otherwise>  
+		            LIMIT #{pageSize}
+		        </otherwise>  
+		    </choose>  
+		</if>
+    </select>
+    
+    <select id="getJoinCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+      SELECT COUNT(1) FROM t_join j LEFT JOIN t_account a ON j.agent_id = a.agent_id 
+	  where 1=1
+      	<include refid="SQL_JOIN_QUERY" />
+    </select>
+    
+    <!-- 个人中心查询所有关联信息-->
+    <select id="JoinList" parameterType="java.util.Map" resultMap="joinInf">
+    	select * from t_join j where 1=1 and join_zt = 1  
+    	<include refid="SQL_JOIN_LIKE" />
+    	ORDER BY join_id desc
+    	<if test="pageSize != null and pageSize != ''">
+			<choose>
+		        <when test="startPage != null and startPage != ''">  
+		           LIMIT #{startPage},#{pageSize}
+		        </when>  
+		        <otherwise>  
+		            LIMIT #{pageSize}
+		        </otherwise>  
+		    </choose>  
+		</if>
+    </select>
+    
+    
+    <!-- 关联查询 -->
+   <select id="queryByJoinAndAcc" parameterType="java.util.Map" resultMap="joinInf">
+   	select j.join_id,j.consumer_no,j.agent_id,j.join_name,j.join_card,j.join_vipzg,j.join_amt,j.join_crisis_time
+	j.join_time,j.join_vipsu_time,j.join_mutype,j.join_status,a.ac_bal,a.account_status,a.lst_tx_datetime,c.cust_status
+	from t_join j LEFT JOIN t_account a ON j.agent_id = a.agent_id
+	LEFT JOIN t_cust c ON j.agent_id = c.agent_id
+	where 1=1 
+	<include refid="SQL_JOIN_QUERY"/>
+   </select>
+   
+   <!-- 加入表关联项目表 -->
+    <select id="queryByJoinAndMu" parameterType="java.util.Map" resultMap="joinInf">
+    	SELECT * FROM t_join j LEFT JOIN t_mutual m ON j.mu_id = m.mutual_id 
+    	where 1=1
+    	<include refid="SQL_JOIN_QUERY"/>
+    </select>
+
+    <select id="findByJoin" parameterType="java.util.Map" resultMap="joinInf">
+    	SELECT * FROM T_JOIN j WHERE 1=1
+    	<include refid="SQL_JOIN_QUERY" />
+    </select>
+    
+    <select id="queryByLimit" parameterType="java.util.Map" resultMap="joinInf">
+    	SELECT * FROM T_JOIN j WHERE 1=1
+    	<include refid="SQL_JOIN_QUERY" />
+    	ORDER BY join_id DESC LIMIT 1
+    </select>
+    
+    
+   	
+   	<select id="queryByJoinitem" parameterType="java.util.Map" resultMap="joinInf">
+   		SELECT * FROM t_join where 1=1 
+   		<if test="joinStatrTime != null and joinStatrTime != ''">
+			and join_vipsu_time >= #{joinStatrTime}
+		</if>
+		<if test="joinEndTime != null and joinEndTime != ''">
+			<![CDATA[ and join_vipsu_time <= #{joinEndTime} ]]>
+		</if>
+   			and join_mutype = #{joinMutype}
+   			and join_status = #{joinStatus}
+   			and join_vipzg = #{joinVipzg}
+   	</select>
+   	
+   	
+   	<insert id="addJoin" parameterType="java.util.Map">
+   		insert into t_join(
+			mu_id,
+			consumer_no,
+			event_nubmer,
+			join_name,
+			join_card,
+			join_amt,
+			join_vipzg,
+			join_time,
+			join_vipsu_time,
+			join_effetime,
+			join_mutype,
+			agent_id
+   		)VALUES(
+	   		  #{muId},
+	   		  #{consumerNo},
+	   		  #{eventNubmer},
+	   		  #{joinName},
+	   		  #{joinCard},
+	   		  #{joinAmt},
+	   		  #{joinVipzg},
+	   		  #{joinTime},
+	   		  #{joinVipsuTime},
+	   		  #{joinEffetime},
+	   		  #{joinMutype},
+	   		  #{agentId}
+   		)
+   	</insert>
+   	
+   	<update id="updateJoin" parameterType="java.util.Map">
+   	UPDATE t_join
+   			<set>
+   			<if test="joinZt !=null and joinZt !=''">
+   				join_zt = #{joinZt},
+   			</if>
+   				<if test="joinStatus !=null and joinStatus !=''">
+   				join_status = #{joinStatus}
+   			</if>
+			</set>
+		<where>
+   	  	 		consumer_no = #{consumerNo} AND agent_id = #{agentId}
+		</where>
+   	</update>
+
+
+<update id="updateItemJoin" parameterType="java.util.Map">
+   	UPDATE t_join
+   			<set>
+	    		 join_vipzg = #{joinVipzg},
+			</set>
+	<where>
+	    1=1
+		<if test="joinStatrTime != null and joinStatrTime != ''">
+			and join_vipsu_time >= #{joinStatrTime}
+		</if>
+		<if test="joinEndTime != null and joinEndTime != ''">
+			<![CDATA[ and join_vipsu_time <= #{joinEndTime} ]]>
+		</if>
+   			and join_mutype = #{joinMutype}
+   			and join_status = #{joinStatus}
+   			and join_vipzg = '01'	
+	</where>		
+</update>
+
+<update id="updateJoinByAmt" parameterType="java.util.Map">
+	UPDATE T_JOIN j
+	 LEFT JOIN t_orders o ON j.agent_id=o.agent_id 
+	<set>
+		
+	    <if test="eventNubmer !=null and eventNubmer != '' ">
+	    	j.event_nubmer = #{eventNubmer},
+	    </if>
+	    <if test="joinAmt !=null and joinAmt != '' ">
+	    	j.join_amt = j.join_amt + #{joinAmt},
+	    </if>
+	    <if test="joinVipzg !=null and joinVipzg != '' ">
+	    	j.join_vipzg = #{joinVipzg},
+	    </if>
+	    <if test="joinTime !=null and joinTime != '' ">
+	    	j.join_time = #{joinTime},
+	    </if>
+	    <if test="joinCrisisTime !=null and joinCrisisTime != '' ">
+	    	j.join_crisis_time = #{joinCrisisTime},
+	    </if>
+	    <if test="joinVipsuTime !=null and joinVipsuTime != '' ">
+	    	j.join_vipsu_time = #{joinVipsuTime},
+	    </if>
+	    <if test="joinEffetime !=null and joinEffetime != '' ">
+	    	j.join_effetime = #{joinEffetime},
+	    </if>
+	    <if test="joinNomoney !=null and joinNomoney != '' ">
+	    	j.join_nomoney = #{joinNomoney},
+	    </if>
+	    <if test="joinZt !=null and joinZt != '' ">
+	    	j.join_zt = #{joinZt},
+	    </if>
+	    <if test="joinType !=null and joinType != '' ">
+	    	j.join_type = #{joinType},
+	    </if>
+	    <if test="joinMutype !=null and joinMutype != '' ">
+	    	j.join_mutype = #{joinMutype},
+	    </if>
+	    <if test="joinStatus !=null and joinStatus != '' ">
+	    	j.join_status = #{joinStatus}
+	    </if>
+		 <if test="payOrderNo!=null and payOrderNo !=''">
+  	  	  o.pay_order_no = #{payOrderNo},
+  	  </if>
+  	  <if test="successTime !=null and successTime !=''">
+  	  	  o.success_time = #{successTime},
+  	  </if>
+  	  <if test="mutualType !=null and mutualType !=''">
+  	  	  o.mutual_type = #{mutualType},
+  	  </if>
+  	  o.order_status = #{orderStatus},j.join_status = #{orderStatus}
+	</set>
+	<where>
+		j.consumer_no = #{consumerNo} AND j.agent_id = #{agentId}
+	</where>
+</update>
+
+
+<update id="updateQueyAmt" parameterType="java.util.Map">
+  UPDATE T_JOIN j
+  Left join T_ACCOUNT a ON j.agent_id = a.agent_id
+  <set>
+	   join_amt = join_amt - #{sqamt},
+	   join_nomoney = join_nomoney + #{sqamt}
+  </set>
+  <where>
+  	  join_mutype = #{joinMutype}  and  join_amt>#{joinAmt} and join_status = #{joinStatus}
+  </where>
+</update>
+
+
+<update id="updateNotBal" parameterType="java.util.Map">
+  UPDATE T_JOIN j
+  <set>
+	  	 join_zt = #{joinZt},
+		 join_crisis_time = #{joinCrisisTime}
+  </set>
+  <where>
+  	   1=1 and #{joinAmt}>=join_amt and join_status = 1 and join_zt = '0'
+  </where>
+</update>
+<!-- <update id="quqtrUpdate" parameterType="java.util.Map">
+	UPDATE t_join j 
+	<set>
+		 join_zt = #{joinZt},
+		 join_crisis_time = #{joinCrisisTime}
+	</set>
+	<where>
+	    join_amt < #{joinAmt} and join_status = 1 and join_zt = 0
+	</where>
+</update> -->
+
+<!-- <update id="updateQueyAmt" parameterType="java.util.List">
+    <foreach collection="list" item="item" index="index" separator="">
+    	UPDATE T_JOIN  SET join_amt = #{item.joinAmt},
+    	join_nomoney = #{item.sqamt}
+    	where agent_id = #{item.agentId}	
+    </foreach>
+	 UPDATE T_JOIN j set
+	 	j.join_amt = 
+	  <foreach collection="list" item="item" index="index" separator=" ">  
+        #{item.joinAmt}  
+      </foreach>  
+	  ,j.join_nomoney =  
+      <foreach collection="list" item="item" index="index" separator=" " >  
+        #{item.sqamt}  
+      </foreach>  
+      where agent_id in  
+      <foreach collection="list" index="index" item="item" separator="," open="(" close=")">  
+        #{item.agentId}  
+      </foreach>  
+</update> -->
+
+
+</mapper>  

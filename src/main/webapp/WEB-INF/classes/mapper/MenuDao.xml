@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.match.dao.MenuDao">
+	
+	<resultMap type="Map" id="menuMap">
+		<result column="menu_id" property="menuId" />
+		<result column="menu_par_id" property="menuParId" />
+		<result column="menu_name" property="menuName" />
+		<result column="menu_url" property="menuUrl" />
+		<result column="menu_status" property="menuStatus" />
+		<result column="menu_type" property="menuType" />
+		<result column="sys_id" property="sysId" />
+		<result column="menu_is_leaf" property="menuIsLeaf" />
+		<result column="auth_url" property="authUrl" />
+	</resultMap>
+	
+	<select id="getAllMenuList" parameterType="Map" resultMap="menuMap" >
+		SELECT *
+			FROM auth_menu_inf m
+	</select>
+	
+	<select id="getMenuList" parameterType="Map" resultMap="menuMap" >
+		SELECT DISTINCT
+				m.menu_id,
+				m.menu_par_id,
+				m.menu_name,
+				m.menu_url,
+				m.menu_status,
+				m.menu_type,
+				m.sys_id,
+				m.menu_is_leaf,
+				m.auth_url
+			FROM auth_user_inf u 
+				LEFT JOIN auth_user_role_rel_inf ur
+					ON ur.U_ID = u.ID  AND ur.U_ID = #{userId}
+				LEFT JOIN auth_role_inf r
+					ON r.ROLE_ID = ur.R_ID
+				LEFT JOIN auth_role_menu_rel_inf mr
+					ON mr.R_ID = r.ROLE_ID
+				LEFT JOIN auth_menu_inf m
+					ON m.MENU_ID = mr.MENU_ID  AND m.sys_id= #{sysId}
+			WHERE IFNULL(m.MENU_URL,'') != ''
+	</select>
+	
+	<select id="getMenuByID" parameterType="Map" resultMap="menuMap">
+		select * from auth_menu_inf where menu_id = #{menuId}
+	</select>
+	
+	<update id="updateMenu" parameterType="Map">
+		update auth_menu_inf 
+		<set>
+			<if test="menuName != null and menuName !=''">
+				menu_name = #{menuName},
+			</if>
+			<if test="menuUrl != null and menuUrl !=''">
+				menu_url = #{menuUrl},
+			</if>
+			<if test="menuStatus != null and menuStatus !=''">
+				menu_status = #{menuStatus},
+			</if>
+			<if test="menuType != null and menuType !=''">
+				menu_type = #{menuType},
+			</if>
+			<if test="authUrl != null and authUrl !=''">
+				auth_url = #{authUrl},
+			</if>
+			<if test="authUrl == null or authUrl ==''">
+				auth_url = null,
+			</if>
+		</set>
+		where menu_id = #{menuId}
+	</update>
+	<insert id="insertMenu" parameterType="Map">
+		insert into auth_menu_inf values(
+			#{menuId},
+			<if test="menuParId != null and menuParId != ''">
+				#{menuParId},
+			</if>
+			<if test="menuParId == null or menuParId == ''">
+				null,
+			</if>
+			#{menuName},#{menuUrl},#{menuStatus},#{menuType},
+			<if test="menuCode != null and menuCode !=''">
+				#{menuCode},
+			</if>
+			<if test="menuCode == null or menuCode ==''">
+				null,
+			</if>
+			#{sysId},#{menuIsLeaf},
+			<if test="authUrl != null and authUrl != ''">
+				#{authUrl}
+			</if>
+			<if test="authUrl == null or authUrl == ''">
+				null
+			</if>
+		)
+	</insert>
+	
+	<select id="queryMaxId" resultType="Integer" parameterType="Map">
+		SELECT MAX(menu_id) FROM auth_menu_inf
+			WHERE
+			<if test="menuParId != null and menuParId != ''">
+				MENU_PAR_ID = #{menuParId}
+			</if>
+		 	<if test="menuParId == null or menuParId == ''">
+				MENU_PAR_ID is null
+			</if>
+	</select>
+</mapper>  
