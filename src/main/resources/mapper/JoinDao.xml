@@ -211,7 +211,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <!-- 关联查询 -->
    <select id="queryByJoinAndAcc" parameterType="java.util.Map" resultMap="joinInf">
-   	select j.join_id,j.consumer_no,j.agent_id,j.join_name,j.join_card,j.join_vipzg,j.join_amt,j.join_crisis_time
+   	select j.join_id,j.consumer_no,j.agent_id,j.join_name,j.join_card,j.join_vipzg,j.join_amt,j.join_crisis_time,
 	j.join_time,j.join_vipsu_time,j.join_mutype,j.join_status,a.ac_bal,a.account_status,a.lst_tx_datetime,c.cust_status
 	from t_join j LEFT JOIN t_account a ON j.agent_id = a.agent_id
 	LEFT JOIN t_cust c ON j.agent_id = c.agent_id
