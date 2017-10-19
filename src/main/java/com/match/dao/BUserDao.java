@@ -44,4 +44,11 @@ public interface BUserDao {
 	  * @return
 	  */
 	 int getUserListCount(Map<String, Object> param);
+
+	/**
+	 * 删除用户信息
+	 * @param param
+	 * @return
+	 */
+	 int deleteUser(Map<String,Object> param);
 }
