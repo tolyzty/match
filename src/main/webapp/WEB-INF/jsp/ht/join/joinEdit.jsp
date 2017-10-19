@@ -14,32 +14,62 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <article class="cl pd-20">
 		<form action="" method="post" class="form form-horizontal" id="role-form">
 			<div class="row cl">
-				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>菜单编号：</label>
+				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>商户编号：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text"  readonly="readonly" value="${requestScope.role.roleId}" placeholder="" id="roleId" name="roleId">
+					<input type="text" class="input-text"  readonly="readonly" value="${requestScope.findMap.agentId}" placeholder="" id="agentId" name="agentId">
 				</div>
 			</div>
 			<div class="row cl">
-				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户名称：</label>
+				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户编号：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value="${role.roleName }" placeholder="" id="roleName" name="roleName" />
+					<input type="text" class="input-text" readonly="readonly" value="${findMap.consumerNo }" placeholder="" id="consumerNo" name="consumerNo" />
 				</div>
 			</div>
 			<div class="row cl">
-				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色描述：</label>
+				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>所属项目ID：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value="${role.roleDesc }" placeholder="" id="roleDesc" name="roleDesc" />
+					<input type="text" class="input-text" readonly="readonly" value="${findMap.muId }" placeholder="" id="muId" name="muId" />
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>事件编号：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" readonly="readonly" value="${findMap.eventNubmer }" placeholder="" id="eventNubmer" name="eventNubmer" />
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>加入姓名：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" readonly="readonly" value="${findMap.joinName }" placeholder="" id="joinName" name="joinName" />
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>加入卡号：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" readonly="readonly" value="${findMap.joinCard }" placeholder="" id="joinCard" name="joinCard" />
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>账户金额：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" readonly="readonly" value="${findMap.joinAmt }" placeholder="" id="joinAmt" name="joinAmt" />
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>帐户期：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" readonly="readonly" value="${findMap.joinVipzg }" placeholder="" id="joinVipzg" name="joinVipzg" />
 				</div>
 			</div>
 			<div class="row cl">
 				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色状态：</label>
 				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 					<div class="radio-box">
-						<input name="roleStatus" type="radio" value="0" <c:if test="${role.roleStatus == 0 }">checked</c:if> />
+						<%--@declare id="sex-1"--%><input name="roleStatus" type="radio" value="0" <c:if test="${role.roleStatus == 0 }">checked</c:if> />
 						<label for="sex-1">禁用</label>
 					</div>
 					<div class="radio-box">
-						<input name="roleStatus" type="radio" value="1" <c:if test="${role.roleStatus == 1 }">checked</c:if> />
+						<%--@declare id="sex-2"--%><input name="roleStatus" type="radio" value="1" <c:if test="${role.roleStatus == 1 }">checked</c:if> />
 						<label for="sex-2">正常</label>
 					</div>
 				</div>
@@ -50,23 +80,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="formControls col-xs-8 col-sm-9">
 					<span class="select-box">
 						<select class="select" size="1" name="sysId" id="sysId">
-							<option value="0002" <c:if test="${role.sysId == '0002' }">selected="selected"</c:if> >
-								商户系统
-							</option>
-							<option value="0003" <c:if test="${role.sysId == '0003' }">selected="selected"</c:if> >
-								交易系统
-							</option>
 							<option value="0001" <c:if test="${role.sysId == '0001' }">selected="selected"</c:if> >
 								运营系统
 							</option>
 						</select>
 					</span>
-				</div>
-			</div>
-			<div class="row cl">
-				<label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>所属商户ID：</label>
-				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value="${role.merId }" placeholder="" id="merId" name="merId" />
 				</div>
 			</div>
 			<div class="row cl">

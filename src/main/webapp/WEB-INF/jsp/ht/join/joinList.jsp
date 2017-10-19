@@ -135,8 +135,12 @@ onclick="join_details('申请互助','<%=path %>/ht/cust/custApply.do?agentId=${
     function join_details(title,url,w,h){
        layer_show(title,url,w,h);
     };
+
+    function join_edit(title,url,w,h){
+        layer_show(title,url,w,h);
+	};
     
-    var URL = "<%=path%>/ht/join/joinUpdate.do";
+    var URL = "<%=path%>/ht/join/joinEdit.do";
   	$("#buton").click(function(){
 	   $.ajax({
 	   	url:URL,

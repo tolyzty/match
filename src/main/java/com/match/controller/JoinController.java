@@ -31,6 +31,16 @@ public class JoinController {
 	 * [Join页面]跳转页面
 	 */
 	private final static String JOINLIST = "ht/join/joinList";
+
+	/**
+	 * [JOIN编辑页面]跳转
+	 */
+	private final static String JOINEDIT = "ht/join/joinEdit";
+
+	/**
+	 * [404]页面
+	 */
+	private final static String JOINERROR = "error/404";
 	
 	@Autowired
 	private DBJoinService dbJoinService;
@@ -53,6 +63,28 @@ public class JoinController {
 			log.warn("异常错误,错误编码[{}]",e);
 		}
 		return JOINLIST;
+	}
+
+	@RequestMapping(value="joinEdit")
+	public String JoinEdit(HttpServletRequest request,HttpServletResponse response){
+		log.info("进入编辑页面..");
+		Map<String, Object> param = RequestUtil.getReqMap(request);
+		try {
+			log.info("获取编辑参数:[{}]",param);
+			Map<String,Object> findMap = dbJoinService.findByJoin(param);
+			log.info("根据ID查询修改信息:[{}]",findMap);
+			if (findMap==null){
+				return JOINERROR;
+			}else{
+				request.setAttribute("findMap",findMap);
+				return JOINEDIT;
+			}
+		}catch (Exception e){
+			log.info("异常:[{}]",e);
+			e.printStackTrace();
+		}
+		return null;
+
 	}
 	
 	/*@RequestMapping(value="joinUpdate",method=RequestMethod.POST)
