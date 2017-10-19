@@ -52,5 +52,10 @@ public class DBBUserServiceImpl implements DBBUserService {
 		return this.bUserDao.getUserListCount(param);
 	}
 
+	@Override
+	public int deleteUser(Map<String, Object> param) {
+		return this.bUserDao.deleteUser(param);
+	}
+
 
 }

@@ -131,7 +131,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<a style="text-decoration:none" class="btn btn-warning-outline radius size-MINI" 
 			onClick="cust_edit('用户修改','<%=path %>/ht/user/userEdit.do?userId=${userlist.userId }','--','700','550')" 
 			href="javascript:;" title="编辑" class="btn btn-warning-outline radius size-MINI">编辑
-		</a>																	
+		</a>
+		<a style="text-decoration:none" class="btn btn-warning-outline radius size-MINI"
+			onclick="laycofmde('${userlist.userId}')"
+		   href="javascript:;" title="删除"  class="btn btn-warning-outline radius size-MINI">删除
+		</a>
 	</td>				
 	</tr>
 		</c:forEach>
@@ -192,5 +196,27 @@ function godis(url,uId,status){
  	});
 	
 };
+function laycofmde(uId){
+       var btnmsg = "确认删除";
+       var msg ="您是否要删除该用户?";
+       var url = "<%=path%>/ht/user/userDelete.do";
+       layer.confirm(msg, {icon: 3, title:'系统提示', btn: [btnmsg,'取消'],offset:'150px'
+       }, function(index){
+           cust_delete(url,uId);
+       },function(index){
+           layer.close(index);
+       });
+   };
+function cust_delete(url,uId){
+    $.post(url,{userId:uId},function(data){
+        if(data.msg=='success'){
+            layer.msg('删除成功', {icon: 1,offset:'80px'});
+            location.reload();
+        }else{
+            layer.msg('删除失败', {icon: 2,offset:'80px'});
+        }
+    });
+};
+
   </script>
 </html>

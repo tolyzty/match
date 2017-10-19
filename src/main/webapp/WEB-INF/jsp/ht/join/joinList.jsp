@@ -103,7 +103,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		     	<c:if test="${joinlist.custStatus=='1'}"><span style="color:#00FF00;">审核成功</span></c:if>
 		     	</td>
 		     	<td>
-<%-- <a class="btn btn-warning-outline radius size-MINI" 
+					<a class="btn btn-warning-outline radius size-MINI"
+					title="编辑" href="javascript"
+					onclick="join_edit('编辑','<%=path %>/ht/join/joinEdit.do?agentId=${joinlist.agentId }','800','550')"
+					>编辑
+					</a>
+				<%-- <a class="btn btn-warning-outline radius size-MINI"
 href="javascript:;" title="申请互助" 
 onclick="join_details('申请互助','<%=path %>/ht/cust/custApply.do?agentId=${joinlist.agentId }','800','550');">申请互助</a>								
 	 --%>	     
