@@ -11,11 +11,13 @@ public interface DBAuthUserService {
 	 * @return
 	 */
 	int updateAuthUser(Map<String, Object> param);
+
+
 	Map<String, Object> selectAuthUser(Map<String, Object> param);
 	
 	/**
 	 * 分页查询
-	 * @param role
+	 * @param param
 	 * @return
 	 */
 	List<Map<String,Object>> findByUserPage(Map<String,Object> param);
@@ -56,7 +58,7 @@ public interface DBAuthUserService {
 	
 	/**
 	 * 批量增加权限信息
-	 * @param rolemenu
+	 * @param
 	 * @return
 	 */
 	int insertUserData(Map<String,Object> param);
