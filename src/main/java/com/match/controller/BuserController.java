@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.match.htservice.AuthService;
+import com.match.service.DBAuthUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import com.util.MapUtils;
 import com.util.RequestUtil;
 import com.util.bean.Result;
 import com.util.exception.BusinessException;
+import redis.clients.jedis.Jedis;
 
 
 @Controller
@@ -55,6 +58,8 @@ public class BuserController {
 	private final static String USEREDIT = "ht/user/userEdit";
 	@Autowired
 	private DBBUserService dbbUserService;
+	@Autowired
+	private DBAuthUserService dbAuthUserService;
 	
 	
 	/**
@@ -136,23 +141,37 @@ public class BuserController {
 		Map<String, Object> param = RequestUtil.getReqMap(request);
 		log.info("获取前台得参数:[{}]",param);
 		String pwd = EncryptUtil.getEncrypPwd(param.get("userName"),param.get("userPassword"));
-		param.put("userName", param.get("userName"));
+		param.put("userId", param.get("userName"));
 		log.info("密码加密[{}]",pwd);
-		param.put("userPassword", pwd);
+		param.put("userPwd", pwd);
+		log.info("请求的用户名和密码:[{}]",param);
 		try {
-			Map<String, Object> userMap = dbbUserService.queryUserByAll(param);
-			log.info("根据用户名和密码查询:[{}]",userMap);
-			if (userMap!=null) {
-				 session.setAttribute("userName", userMap.get("userName"));
-				 session.setAttribute("id", userMap.get("id"));
-				 session.setAttribute("userPhone", userMap.get("userPhone"));
+			Map<String, Object> authUser = dbAuthUserService.selectAuthUser(param);
+			//Map<String, Object> userMap = dbbUserService.queryUserByAll(param);
+			log.info("根据用户名和密码查询:[{}]",authUser);
+			if (authUser!=null) {
+				 session.setAttribute("userId", authUser.get("userId"));
+				 session.setAttribute("id", authUser.get("id"));
+				 session.setAttribute("userPhone", authUser.get("userPhone"));
 				 InetAddress addr = InetAddress.getLocalHost();
 				 String ip=addr.getHostAddress();//获得本机IP
 				 String date = DateUtils.getCurrentDateTime2();//获取当前时间
-				 log.info("[用户登陆]获取得本地IP:[{}],获取登陆时间:[{}]",ip,date);	
+				 log.info("[用户登陆]获取得本地IP:[{}],获取登陆时间:[{}]",ip,date);
+				 param.clear();
+				 param.put("id",authUser.get("id"));
+				 param.put("lastLoginTime",date);
+				 param.put("lastLoginIp",ip);
+				 param.put("lnum",1);
+				 log.info("[用户登录]登录成功修改用户信息:[{}]",param);
+				 int upMap = dbAuthUserService.updateAuthUser(param);
+				 log.info("[用户登录]修改记录结果:[{}]",upMap);
+				 if (upMap==0){
+				 	log.info("修改登录记录失败:[{}]",upMap);
+				 }
+
 				 return USERCENTER;
 			}else{
-				log.info("登陆信息:[{}]",userMap);
+				log.info("登陆信息:[{}]",authUser);
 				request.setAttribute("error", "用户名或密码错误");
 				throw new BusinessException("对不起,用户不存在");
 			}
@@ -262,6 +281,35 @@ public class BuserController {
 			e.printStackTrace();
 		}
 		RequestUtil.response(response, result);	
+	}
+
+
+	/**
+	 * 删除用信息
+	 * @param request
+	 * @param response
+	 * @throws Exception 失败以后异常处理
+	 */
+	@RequestMapping(value = "userDelete",method = RequestMethod.POST)
+	public void userDelete(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		log.info("删除用户");
+		Result result = new Result();
+		try {
+			Map<String,Object> delparam = RequestUtil.getReqMap(request);
+			int delete = dbbUserService.deleteUser(delparam);
+			log.info("删除数据结果:[{}]",delete);
+			if (delete==0){
+				log.info("删除用户失败");
+				new Exception("删除失败");
+			}
+			result.setMsg("success");
+			result.setCode("200");
+		}catch (Exception e){
+			result.setMsg("error");
+			result.setCode("202");
+			e.printStackTrace();;
+		}
+		RequestUtil.response(response, result);
 	}
 	
 }
