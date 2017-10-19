@@ -308,7 +308,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					SYS_ID = #{sysId},
 				</if>
 				<if test="lnum != null and lnum != ''">
-					LNUM = #{lnum},
+					LNUM = LNUM+#{lnum},
 				</if>
 				<if test="enum != null and enum != ''">
 					ENUM = #{enum},
