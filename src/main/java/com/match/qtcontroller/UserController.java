@@ -134,7 +134,7 @@ public class UserController {
 		log.info("获取登录参数:[{}]",param);
 		try {
 			userService.userLogin(param, request);
-			return CONTENT;
+			return "redirect:/user/content.do";
 		} catch (BusinessException e) {
 			log.info("登录异常");
 			e.printStackTrace();
