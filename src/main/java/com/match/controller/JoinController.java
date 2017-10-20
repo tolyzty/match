@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.util.bean.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +87,29 @@ public class JoinController {
 		return null;
 
 	}
+
+	@RequestMapping(value = "joinUpdate",method = RequestMethod.POST)
+	public void joinUpdate(HttpServletResponse response,HttpServletRequest request) throws Exception {
+	    log.info("执行编辑操作");
+	    Result result = new Result();
+        Map<String, Object> param = RequestUtil.getReqMap(request);
+	    try{
+	       int upMap = dbJoinService.updateJoin(param);
+	       log.info("编辑操作结果:[{}]",upMap);
+	       if (upMap==0){
+	           new Exception("修改失败");
+           }
+           result.setCode("200");
+	       result.setMsg("success");
+
+        }catch (Exception e){
+            result.setCode("202");
+            result.setMsg("error");
+            log.info("编辑操作异常编码:[{}]",e);
+            e.printStackTrace();
+        }
+        RequestUtil.response(response, result);
+    }
 	
 	/*@RequestMapping(value="joinUpdate",method=RequestMethod.POST)
 	public void updateQueryAmt(HttpServletRequest request,HttpServletResponse response){

@@ -168,7 +168,6 @@ public class BuserController {
 				 if (upMap==0){
 				 	log.info("修改登录记录失败:[{}]",upMap);
 				 }
-
 				 return USERCENTER;
 			}else{
 				log.info("登陆信息:[{}]",authUser);

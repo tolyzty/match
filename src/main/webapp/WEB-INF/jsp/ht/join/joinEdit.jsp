@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div>
 			<div class="row cl">
-				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>事件编号：</label>
+				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>加入编号：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<input type="text" class="input-text" readonly="readonly" value="${findMap.eventNubmer }" placeholder="" id="eventNubmer" name="eventNubmer" />
 				</div>
@@ -61,32 +61,66 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input type="text" class="input-text" readonly="readonly" value="${findMap.joinVipzg }" placeholder="" id="joinVipzg" name="joinVipzg" />
 				</div>
 			</div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>加入时间：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" readonly="readonly" value="${findMap.joinTime }" placeholder="" id="joinTime" name="joinTime" />
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>会员生效时间：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" readonly="readonly" value="${findMap.joinVipsuTime }" placeholder="" id="joinVipsuTime" name="joinVipsuTime" />
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>距会员生效天数：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" readonly="readonly" value="${findMap.joinEffetime }" placeholder="" id="joinEffetime" name="joinEffetime" />
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>冻结金额：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" readonly="readonly" value="${findMap.joinNomoney }" placeholder="" id="joinNomoney" name="joinNomoney" />
+                </div>
+            </div>
+
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>帐户安全期：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" readonly="readonly" value="${findMap.joinZt }" placeholder="" id="joinZt" name="joinZt" />
+                </div>
+            </div>
+
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>加入类型：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" readonly="readonly" value="${findMap.joinMutype }" placeholder="" id="joinMutype" name="joinMutype" />
+                </div>
+            </div>
+
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>加入状态：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" readonly="readonly" value="${findMap.joinStatus }" placeholder="" id="joinStatus" name="joinStatus" />
+                </div>
+            </div>
+
 			<div class="row cl">
-				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色状态：</label>
+				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>是否申请互助：</label>
 				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 					<div class="radio-box">
-						<%--@declare id="sex-1"--%><input name="roleStatus" type="radio" value="0" <c:if test="${role.roleStatus == 0 }">checked</c:if> />
-						<label for="sex-1">禁用</label>
+						<%--@declare id="sex-1"--%><input name="custZt" type="radio" value="0" <c:if test="${findMap.custZt == 0 }">checked</c:if> />
+						<label for="sex-1">未申请</label>
 					</div>
 					<div class="radio-box">
-						<%--@declare id="sex-2"--%><input name="roleStatus" type="radio" value="1" <c:if test="${role.roleStatus == 1 }">checked</c:if> />
-						<label for="sex-2">正常</label>
+						<%--@declare id="sex-2"--%><input name="custZt" type="radio" value="1" <c:if test="${findMap.custZt == 1 }">checked</c:if> />
+						<label for="sex-2">已申请</label>
 					</div>
 				</div>
 			</div>
-			
-			<div class="row cl">
-				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>所属系统：</label>
-				<div class="formControls col-xs-8 col-sm-9">
-					<span class="select-box">
-						<select class="select" size="1" name="sysId" id="sysId">
-							<option value="0001" <c:if test="${role.sysId == '0001' }">selected="selected"</c:if> >
-								运营系统
-							</option>
-						</select>
-					</span>
-				</div>
-			</div>
+
 			<div class="row cl">
 				<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
 					<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;" id="submit" />
@@ -99,27 +133,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </body>
 <script type="text/javascript">
 $(function(){
-	var msg = "修改角色成功";
-	var msger = "修改角色失败,请重试";
-	var url = '<%=path %>/ht/role/edit/update.do';
+	var msg = "修改加入信息成功";
+	var msger = "修改加入信息成功,请重试";
+	var url = '<%=path %>/ht/join/joinUpdate.do';
 	var inputskin = $('.skin-minimal input');icheck(inputskin);
 	var validateform = $("#role-form");
 	$("#role-form").validate({
-		rules:{
-			roleName:{
-				required:true,
-				minlength:2,
-			},
-			roleDesc:{
-				required:true,
-			},		
-		},
-		messages:{
-			roleName:{
-				required:"请填写信息",
-				minlength:"最小字符2",
-			}
-		},
 		onkeyup:false,
 		focusCleanup:true,
 		success:"valid",

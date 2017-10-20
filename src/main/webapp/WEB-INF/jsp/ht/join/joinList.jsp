@@ -104,7 +104,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		     	</td>
 		     	<td>
 					<a class="btn btn-warning-outline radius size-MINI"
-					title="编辑" href="javascript"
+					title="编辑" href="javascript:;"
 					onclick="join_edit('编辑','<%=path %>/ht/join/joinEdit.do?agentId=${joinlist.agentId }','800','550')"
 					>编辑
 					</a>
