@@ -25,11 +25,8 @@ import com.util.exception.BusinessException;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-	private final static Logger log = LoggerFactory
-			.getLogger(AuthService.class);
+	private final static Logger log = LoggerFactory.getLogger(AuthService.class);
 
-	@Autowired
-	private AuthService authService;
 
 	@Autowired
 	private DBAuthUserService authUserService;
@@ -37,7 +34,6 @@ public class AuthServiceImpl implements AuthService {
 	/**
 	 * 用户登陆
 	 */
-	@Override
 	public void userLogin(Map<String, Object> param, HttpServletRequest request)
 			throws BusinessException {
 		HttpSession session = request.getSession();
@@ -82,7 +78,6 @@ public class AuthServiceImpl implements AuthService {
 		}
 	}
 
-	@Override
 	public boolean updateUserPwd(Map<String, Object> param,
 			HttpServletRequest request) throws BusinessException {
 		HttpSession session = request.getSession();
