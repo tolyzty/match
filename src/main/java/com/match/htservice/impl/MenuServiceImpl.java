@@ -78,7 +78,6 @@ public class MenuServiceImpl implements MenuService {
 		menu.setChildren(childrens);
 	}
 
-	@Override
 	public void insertMenu(Map<String, Object> param) {
 		// TODO Auto-generated method stub
 		dbMenuServcie.insertMenu(param);
