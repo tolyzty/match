@@ -21,9 +21,8 @@ public class MenuServiceImpl implements MenuService {
 	@Autowired
 	private DBMenuService dbMenuServcie;
 	
-	@Override
+	
 	public void setMenuToSession(Map param, HttpSession session) {
-		// TODO Auto-generated method stub
 		List<Map<String, Object>> menuList = dbMenuServcie.getMenuList(param);
 		System.out.println(menuList.size());
 		List<MenuTree> menuTree = new ArrayList<MenuTree>();
